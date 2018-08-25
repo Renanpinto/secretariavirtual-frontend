@@ -60,7 +60,7 @@ class Home extends Component {
               </div>
               
               <div className="box-content">
-                <span className="big">{this.state.numeroConsultas}</span>
+                <span className="big">10</span>
                 Consultas
               </div>
             </div>
