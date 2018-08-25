@@ -1,0 +1,96 @@
+.container-login {
+	background: url(https://www.andersenbowe.com.au/wp-content/uploads/2017/06/49be22bf2ec3516003010c06e2ec3545.jpg) no-repeat center fixed;
+	background-size: cover;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	font-family: sans-serif, serif;
+	font-size: 18px;
+}
+
+form {
+	background-color: rgba(0,0,0,0.5);
+	border-radius: 10px;
+	width: 85%;
+	margin: 50% auto;
+	padding: 1.5em;
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+}
+
+.hide {
+	display: none;
+}
+
+.row {
+	margin: 0.5em auto;
+}
+
+.row-input {
+	display: inline-flex;
+	background: rgba(0, 0, 0, 0.5);
+	border-radius: 5px;
+	padding: 0.25em;
+}
+
+.icon {
+	width: 1.5em;
+	line-height: 18px;
+}
+
+img {
+	width: 100%;
+	margin: auto 0;
+}
+
+.input {
+	background: none;
+	border: none;
+	color: #fff;
+	padding: 0.25em;
+	font-size: 18px;
+}
+
+.input:focus {
+	outline: none;
+}
+
+input[type=checkbox] {
+	cursor: pointer;
+}
+
+.row-text {
+	margin: 0.15em;
+	font-size: 14px;
+}
+
+.submit {
+	margin: 2em auto 1.5em auto;
+	padding: 0.8em 1.5em;
+	cursor: pointer;
+	width: 60%;
+	border: none;
+	border-radius: 5px;
+	background-color: rgb(38, 124, 181);
+	box-shadow: 2px 2px 0px 0px rgb(28, 94, 138);
+	color: #fff;
+	font-size: 18px;
+	outline: none;
+}
+
+.submit:active {
+	transform: translate(0px, 2px);
+  	-webkit-transform: translate(0px, 2px);
+}
+
+.pointer {
+	cursor: pointer;
+	margin: 0 auto;
+}
+
+p {
+	margin: 0;
+}
