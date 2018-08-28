@@ -1,12 +1,11 @@
 import React from 'react';
 import $ from 'jquery';
+import PubSub from 'pubsub-js';
 
 export default class Menu extends React.Component {
   constructor() {
     super();
     this.state = {
-      lista: [],
-      isHidden: true,
       name: '',
       email: '',
       phone: '',
@@ -15,7 +14,7 @@ export default class Menu extends React.Component {
     this.setName = this.setName.bind(this);
     this.setEmail = this.setEmail.bind(this);
     this.setPhone = this.setPhone.bind(this);
-    this.enviaForm = this.enviaForm.bind(this);
+    this.enviaForm = this.enviaForm;
   }
   
   setName(event){
@@ -46,7 +45,9 @@ export default class Menu extends React.Component {
       success: function(resposta){
         console.log(resposta);
         console.log("enviado com sucesso");
-        this.setState({lista:resposta});
+        const data = this.state;
+        PubSub.publish('atualiza-lista', data);
+        this.setState({ name:'', email:'', phone:'' });
       }.bind(this),
       error: function(resposta){
           console.log("erro");

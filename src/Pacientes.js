@@ -5,6 +5,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import MenuLateral from './components/Menu';
 import TopMenu from './components/TopMenu';
 import FormCadastroPaciente from './components/FormCadastroPaciente';
+import PubSub from 'pubsub-js';
 
 
 class Home extends Component {
@@ -30,7 +31,14 @@ class Home extends Component {
       error: function(resultado) {
         console.log("deu ruim: ", resultado);
       }
+      
     });
+    PubSub.subscribe('atualiza-lista', function(topico, data) {
+      this.state.lista.push(data);
+
+      const retorno = Object.assign(this.state.lista, data);
+      this.setState({lista: retorno});
+    }.bind(this));
   }
 
   toggleHidden() {
