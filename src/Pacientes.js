@@ -52,6 +52,14 @@ class Home extends Component {
       formularioPaciente = <FormCadastroPaciente/>
     } 
 
+    const listByName = this.state.lista.slice(0);
+    listByName.sort(function(a,b) {
+    const x = a.name.toLowerCase();
+    const y = b.name.toLowerCase();
+    return x < y ? -1 : x > y ? 1 : 0;
+    });
+
+
     return (
       <div className="dashboard">
       <TopMenu/>
@@ -93,7 +101,7 @@ class Home extends Component {
          
           <section className="person-boxes">
               {
-               this.state.lista.map(function(paciente){
+               listByName.map(function(paciente){
                 console.log('paciente', paciente.name);
                 return (
                     <div className="person-box">
