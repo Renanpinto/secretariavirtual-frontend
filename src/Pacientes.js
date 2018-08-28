@@ -98,7 +98,7 @@ class Home extends Component {
                 return (
                     <div className="person-box">
                       <div className="box-avatar">
-                        <img src="http://icons.iconarchive.com/icons/papirus-team/papirus-status/512/avatar-default-icon.png" alt="Frederic Levy, Chief Executive Officer"/>
+                        <img src="http://icons.iconarchive.com/icons/papirus-team/papirus-status/512/avatar-default-icon.png" alt={paciente.name}/>
                       </div>
                       
                       <div className="box-bio">
