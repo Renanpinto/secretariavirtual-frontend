@@ -84,10 +84,10 @@ body {
 }
 .menu-wrap {
   grid-area: menu;
-  padding-bottom: 3em;
   overflow: auto;
   background: #fff;
   border-right: 1px solid #ede8f0;
+  width: 100%;
 }
 .menu-wrap .user {
   height: 80px;
@@ -124,7 +124,7 @@ body {
 }
 .menu-wrap nav section {
   display: block;
-  padding: 3em 0 0;
+  padding: 2em 0 0;
 }
 .menu-wrap nav h3 {
   margin: 0;
@@ -178,7 +178,7 @@ body {
 }
 .content-wrap {
   grid-area: content;
-  padding: 3em;
+  padding: 2em 3em 0 3em;
   overflow: auto;
 }
 .content-wrap .content-head {
