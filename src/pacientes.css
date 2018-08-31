@@ -2,6 +2,21 @@
   box-sizing: border-box;
 }
 
+.transition-enter {
+  transform: scale(0);
+}
+.transition-enter-active {
+  transform: scale(1);
+  transition: transform 500ms ease;
+}
+.transition-exit {
+  transform: scale(1);
+}
+.transition-exit-active {
+  transform: scale(0);
+  transition: transform 500ms ease;
+}
+
 .search-wrap {
   grid-area: search;
   background: #fff;
@@ -49,6 +64,11 @@
   margin: 0;
   padding: 0;
   margin-left: 0.5em;
+}
+
+.content-wrap .person-boxes .btn-modal {
+  width: 100%;
+  height: 100%;
 }
 .search-wrap .user-actions button svg {
   position: relative;
