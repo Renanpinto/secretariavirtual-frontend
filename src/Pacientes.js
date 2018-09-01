@@ -10,15 +10,17 @@ import FormCadastroPaciente from './components/FormCadastroPaciente';
 // import './custom-animation.css';
 
 
-class Home extends Component {
+class Pacientes extends Component {
   constructor() {
     super();
     this.state = {
       lista: [],
       isHidden: true,
       phone: '',
+      search: '',
       open: false,
     };
+    this.updateSearch = this.updateSearch.bind(this);
     // this.onOpenModal=this.onOpenModal.bind(this);
     this.onCloseModal=this.onCloseModal.bind(this)
   }
@@ -61,12 +63,27 @@ class Home extends Component {
     this.setState({isHidden: !this.state.isHidden })
   }
 
+  updateSearch(event){
+    this.setState({search: event.target.value.substr(0,20)})
+    console.log('entrou aki')
+  }
+
   render() {
+
+    let filteredPacientes = this.state.lista.filter(
+      (paciente) =>{
+        return paciente.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+      }      
+    );
+
     const { open } = this.state;
+
     let formularioPaciente;
     if (!this.state.isHidden) {
       formularioPaciente = <FormCadastroPaciente/>
     } 
+
+    
 
     // const listByName = this.state.lista.slice(0);
     // listByName.sort(function(a,b) {
@@ -78,7 +95,7 @@ class Home extends Component {
 
     return (
       <div className="dashboard">
-      <TopMenu/>
+      <TopMenu onSearch={this.updateSearch}/>
       <MenuLateral/>
       
       <main className="content-wrap">
@@ -140,7 +157,7 @@ class Home extends Component {
 </div>
       <section className="person-boxes">
               {
-               this.state.lista.map(function(paciente){
+                filteredPacientes.map(function(paciente){
                 console.log('paciente', paciente.name);
                 return (
                   <div>
@@ -187,4 +204,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default Pacientes;
