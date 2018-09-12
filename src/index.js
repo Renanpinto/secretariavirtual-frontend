@@ -7,6 +7,7 @@ import Login from './Login';
 import registerServiceWorker from './registerServiceWorker';
 import Home from './Home';
 import Pacientes from './Pacientes';
+import Pagamentos from './Pagamentos';
 
 ReactDOM.render(
     <BrowserRouter>
@@ -16,6 +17,7 @@ ReactDOM.render(
         <Route exact path="/home" component={Home} />
         <Route exact path="/pacientes" component={Pacientes} />
         <Route exact path="/app" component={App} />
+        <Route exact path="/pagamentos" component={Pagamentos} />
 
         {/* <Route component={NoMatch} /> */} */}
     </Switch>
