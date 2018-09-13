@@ -26,7 +26,7 @@ class Login extends React.Component {
         </div>
         <input type="submit" name="submit" value="LOGIN" className="submit"/>
           <GoogleLogin
-          clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+          clientId="725201234070-9v22u6kol7vpb6tn2u1oprrv7u8t62sb.apps.googleusercontent.com"
           buttonText="Login com Google"
           onSuccess={responseGoogle}
           onFailure={responseGoogle}
