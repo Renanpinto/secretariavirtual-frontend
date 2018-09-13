@@ -3,7 +3,7 @@ import { GoogleLogin } from 'react-google-login';
 import './Login.css';
 
 const responseGoogle = (response) => {
-  console.log(response);
+  console.log('response', response);
 };
 
 class Login extends React.Component {
@@ -26,7 +26,7 @@ class Login extends React.Component {
         </div>
         <input type="submit" name="submit" value="LOGIN" className="submit"/>
           <GoogleLogin
-          clientId="725201234070-9v22u6kol7vpb6tn2u1oprrv7u8t62sb.apps.googleusercontent.com"
+          clientId="725201234070-5n4ahqs00jlori0n0dinghgpbhffjkni.apps.googleusercontent.com"
           buttonText="Login com Google"
           onSuccess={responseGoogle}
           onFailure={responseGoogle}

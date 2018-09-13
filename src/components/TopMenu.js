@@ -1,10 +1,22 @@
 import React from 'react';
 import Search from './Search';
+import  GoogleLogout  from 'react-google-login';
 
+
+const logout = (response) => {
+  console.log("logout clicked!");
+  console.log(response);
+};
 export default class TopMenu extends React.Component {
-    render() {
+  render() {
         return (
           <aside className="search-wrap">
+          <div>
+    <GoogleLogout
+      buttonText="Logout"
+      onLogoutSuccess={logout}
+    />
+    </div>
 
             <Search onSearch={this.props.onSearch} />
             
