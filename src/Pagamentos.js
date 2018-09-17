@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './pagamentos.css';
 import $ from 'jquery';
-import { Scrollbars } from 'react-custom-scrollbars';
 import MenuLateral from './components/Menu';
 import TopMenu from './components/TopMenu';
 import ReactTable from "react-table";

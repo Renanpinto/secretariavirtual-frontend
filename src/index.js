@@ -8,6 +8,7 @@ import registerServiceWorker from './registerServiceWorker';
 import Home from './Home';
 import Pacientes from './Pacientes';
 import Pagamentos from './Pagamentos';
+import Consultas from './Consultas';
 
 ReactDOM.render(
     <BrowserRouter>
@@ -18,6 +19,7 @@ ReactDOM.render(
         <Route exact path="/pacientes" component={Pacientes} />
         <Route exact path="/app" component={App} />
         <Route exact path="/pagamentos" component={Pagamentos} />
+        <Route exact path="/consultas" component={Consultas} />
 
         {/* <Route component={NoMatch} /> */} */}
     </Switch>

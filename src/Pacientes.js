@@ -63,35 +63,16 @@ class Pacientes extends Component {
     this.setState({isHidden: !this.state.isHidden })
   }
 
-  updateSearch(event){
-    this.setState({search: event.target.value.substr(0,20)})
-    console.log('entrou aki')
+  updateSearch(event) {
+    this.setState({ search: event.target.value.substr(0, 20) });
   }
 
   render() {
-
-    let filteredPacientes = this.state.lista.filter(
-      (paciente) =>{
-        return paciente.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
-      }      
-    );
-
     const { open } = this.state;
-
     let formularioPaciente;
     if (!this.state.isHidden) {
       formularioPaciente = <FormCadastroPaciente/>
     } 
-
-    
-
-    // const listByName = this.state.lista.slice(0);
-    // listByName.sort(function(a,b) {
-    // const x = a.name.toLowerCase();
-    // const y = b.name.toLowerCase();
-    // return x < y ? -1 : x > y ? 1 : 0;
-    // });
-
 
     return (
       <div className="dashboard">
