@@ -155,7 +155,7 @@ export default class Agenda extends Component {
             {this.state.isEmpty && emptyState}
           </div>
           <a className="primary-cta"
-            href="https://calendar.google.com/calendar?cid=c3FtMnVkaTFhZGY2ZHM3Z2o5aDgxdHVldDhAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ"
+            href="https://calendar.google.com/calendar?cid=cTEzYm9hbGc4YWMzMzRxczV2cnZvMGNzNDBAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ"
             target="_blank" 
             rel="noopener noreferrer">
             +
