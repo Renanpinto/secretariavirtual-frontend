@@ -253,3 +253,11 @@ body {
 .content-wrap .info-boxes .info-box.active svg path {
   fill: #4b84fe;
 }
+
+section .form-consulta {
+  margin: 0%;
+  background: none;
+  width: 100%;
+  height: 100%;
+  color: #99a0b0;
+}
