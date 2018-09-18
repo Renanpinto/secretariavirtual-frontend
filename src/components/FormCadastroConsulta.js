@@ -83,13 +83,8 @@ export default class Menu extends React.Component {
       error: function (resposta) {
         console.log("erro");
       }
-
     })
-
   }
-  
-  
-  
 
   handleClose(event, reason) {
     if (reason === 'clickaway') {
