@@ -66,14 +66,14 @@ export default class Menu extends React.Component {
       dataType: 'json',
       type: 'post',
       data: JSON.stringify({
-        selectedPaciente: this.state.selectedPaciente,
-        selectedDate: this.state.selectedDate
+        customer_id: this.state.selectedPaciente,
+        start_time: this.state.selectedDate
       }),
       success: function (resposta) {
         console.log(resposta);
         console.log('json', JSON.stringify({
-          selectedPaciente: this.state.selectedPaciente,
-          selectedDate: this.state.selectedDate
+          customer_id: this.state.selectedPaciente,
+          start_time: this.state.selectedDate
         }))
         console.log("enviado com sucesso");
         this.setState({ open: true });
