@@ -14,7 +14,6 @@
     "react": "^16.4.2",
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.4.2",
-    "react-google-login": "^3.2.1",
     "react-responsive-modal": "^3.3.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",

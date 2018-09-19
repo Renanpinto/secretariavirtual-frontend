@@ -59,7 +59,10 @@ export default class Menu extends React.Component {
 
   enviaForm(event) {
     event.preventDefault();
-    console.log("dados sendo enviados");
+    console.log("dados sendo enviados", JSON.stringify({
+      customer_id: this.state.selectedPaciente,
+      start_time: this.state.selectedDate,
+    }));
     $.ajax({
       url: "http://ema-api.herokuapp.com/api/appointments",
       contentType: 'application/json',
@@ -67,7 +70,7 @@ export default class Menu extends React.Component {
       type: 'post',
       data: JSON.stringify({
         customer_id: this.state.selectedPaciente,
-        start_time: this.state.selectedDate
+        start_time: this.state.selectedDate,
       }),
       success: function (resposta) {
         console.log(resposta);
@@ -81,7 +84,7 @@ export default class Menu extends React.Component {
         PubSub.publish('atualiza-consultas', data);
       }.bind(this),
       error: function (resposta) {
-        console.log("erro");
+        console.log("erro: ", resposta);
       }
     })
   }
