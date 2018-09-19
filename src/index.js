@@ -11,20 +11,19 @@ import Pagamentos from './Pagamentos';
 import Consultas from './Consultas';
 
 ReactDOM.render(
-    <BrowserRouter>
+  <BrowserRouter>
     <Switch>
-        <Route exact path="/" component={Login} /> 
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/home" component={Home} />
-        <Route exact path="/pacientes" component={Pacientes} />
-        <Route exact path="/app" component={App} />
-        <Route exact path="/pagamentos" component={Pagamentos} />
-        <Route exact path="/consultas" component={Consultas} />
+      <Route exact path="/" component={Login} /> 
+      <Route exact path="/login" component={Login} />
+      <Route exact path="/home" component={Home} />
+      <Route exact path="/pacientes" component={Pacientes} />
+      <Route exact path="/app" component={App} />
+      <Route exact path="/pagamentos" component={Pagamentos} />
+      <Route exact path="/consultas" component={Consultas} />
 
         {/* <Route component={NoMatch} /> */} */}
     </Switch>
-</BrowserRouter>,
-
-  
-    document.getElementById('root'));
+  </BrowserRouter>,
+    document.getElementById('root')
+);
 registerServiceWorker();

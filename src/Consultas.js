@@ -3,12 +3,32 @@ import './pacientes.css';
 import $ from 'jquery';
 import { Scrollbars } from 'react-custom-scrollbars';
 import PubSub from 'pubsub-js';
-import Modal from 'react-responsive-modal';
 import MenuLateral from './components/Menu';
 import TopMenu from './components/TopMenu';
 import FormCadastroConsulta from './components/FormCadastroConsulta';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 // import './custom-animation.css';
 
+function TabContainer(props) {
+  return (
+    <Typography component="div" style={{ padding: 8 * 3 }}>
+      {props.children}
+    </Typography>
+  );
+}
+const styles = theme => ({
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+});
 
 class Consultas extends Component {
   constructor() {
@@ -19,10 +39,12 @@ class Consultas extends Component {
       phone: '',
       search: '',
       open: false,
+      value: 'dia',
     };
     this.updateSearch = this.updateSearch.bind(this);
     // this.onOpenModal=this.onOpenModal.bind(this);
-    this.onCloseModal=this.onCloseModal.bind(this)
+    // this.onCloseModal=this.onCloseModal.bind(this);
+    this.handleTabChange = this.handleTabChange.bind(this);
   }
 
   componentDidMount() {
@@ -59,18 +81,23 @@ class Consultas extends Component {
 
   toggleHidden() {
     console.log('hidden', this.state.isHidden);
-    this.setState({isHidden: !this.state.isHidden })
+    this.setState({ isHidden: !this.state.isHidden })
   }
 
   updateSearch(event) {
     this.setState({ search: event.target.value.substr(0, 20) });
   }
 
+  handleTabChange(event, value) {
+    this.setState({ value });
+  }
+
   render() {
     const { open } = this.state;
-    let formularioPaciente;
+    const { value } = this.state;
+    let formularioConsulta;
     if (!this.state.isHidden) {
-      formularioPaciente = <FormCadastroConsulta/>
+      formularioConsulta = <FormCadastroConsulta/>
     } 
 
     return (
@@ -110,51 +137,33 @@ class Consultas extends Component {
         thumbMinSize={30}
         universal={true}>
          
-         {formularioPaciente}
+         {formularioConsulta}
          
-          <div className="example">
-      <Modal
-          open={open}
-          onClose={this.onCloseModal}
-          center
-          classNames={{
-            transitionEnter: 'transition-enter',
-            transitionEnterActive: 'transition-enter-active',
-            transitionExit: 'transition-exit-active',
-            transitionExitActive: 'transition-exit-active',
-          }}
-          animationDuration={500}
-        >
-          <p>
-          <FormCadastroConsulta/>
-          </p>
-</Modal>
-
-</div>
-      <section className="person-boxes">
-              {
-               this.state.lista.map(function(paciente, i){
-                console.log('paciente', paciente.name);
-                return (
-                  <div>
-                    <button className="btn-modal" onClick={this.onOpenModal.bind(this)}>
-                      <div className="person-box" key={paciente.id}>
-                        <div className="box-avatar">
-                          <img src="http://icons.iconarchive.com/icons/papirus-team/papirus-status/512/avatar-default-icon.png" alt={paciente.name}/>
-                        </div>
-                      
-                        <div className="box-bio">
-                          <h2 className="bio-name">{paciente.name}</h2>
-                          <p className="bio-position">{paciente.email}</p>
-                        </div>
-                      </div>
-                    </button>
-                  </div>
-                  );
-                 
-                }.bind(this))
-              }
-           </section>
+         <div>
+        <AppBar position="sticky">
+          <Tabs value={value} onChange={this.handleTabChange}>
+            <Tab value="dia" label="Consultas do dia" />
+            <Tab value="mes" label="Consultas do mês" />
+          </Tabs>
+        </AppBar>
+        {value === 'dia' && <TabContainer><section className="person-boxes">
+        {
+          this.state.lista.map(function(paciente, i){
+            return (
+              <div>
+              <List>
+                <ListItem>
+                  <ListItemText primary={paciente.customer_id} secondary={paciente.start_time} />
+                </ListItem>
+              </List>
+              </div>
+              );
+            }.bind(this))
+            }
+           </section></TabContainer>}
+        {value === 'mes' && <TabContainer>Item Two</TabContainer>}
+      </div>
+      
           </Scrollbars>
         </div>
       </main>
