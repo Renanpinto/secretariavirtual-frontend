@@ -1,10 +1,5 @@
 import React from 'react';
-import { GoogleLogin } from 'react-google-login';
 import './Login.css';
-
-const responseGoogle = (response) => {
-  console.log('response', response);
-};
 
 class Login extends React.Component {
   render() {
@@ -25,12 +20,6 @@ class Login extends React.Component {
           <p id="restore-password" className="pointer">Esqueceu a senha?</p>
         </div>
         <input type="submit" name="submit" value="LOGIN" className="submit"/>
-          <GoogleLogin
-          clientId="725201234070-5n4ahqs00jlori0n0dinghgpbhffjkni.apps.googleusercontent.com"
-          buttonText="Login com Google"
-          onSuccess={responseGoogle}
-          onFailure={responseGoogle}
-          />
         <div className="row row-text">
           <p id="login-switch" className="pointer">Cadastre-se</p>
         </div>

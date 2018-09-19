@@ -45,7 +45,7 @@ export default class Menu extends React.Component {
       success: function (resultado) {
         console.log('resultado', resultado);
         this.setState({
-          lista: resultado
+          lista: resultado,
         })
         console.log('res', this.state);
         const data = this.state;
