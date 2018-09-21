@@ -180,7 +180,19 @@ class Consultas extends Component {
               {
                 this.state.lista.map(function(paciente, i){
                   return (
-                    <div>
+                    <div key={paciente.customer_id}>
+                      <Table className=''>
+                        <TableBody>
+                          <TableRow>
+                            <TableCell component="td" scope="row">
+                              <ListItemText primary={paciente.customer}/>
+                            </TableCell>
+                            <TableCell numeric>
+                              <ListItemText secondary={paciente.start_time}/>
+                            </TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
                       <List>
                         <ListItem>
                           <ListItemText key={i} primary={paciente.customer} secondary={paciente.start_time} />
@@ -222,8 +234,6 @@ class Consultas extends Component {
                 {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
               </IconButton>
             </div> */}
-              <Paper className='style1'>
-                <div className=''>
                   <Table className=''>
                     <TableBody>
                     {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
@@ -239,10 +249,14 @@ class Consultas extends Component {
                     return (
                     <TableRow key={row.customer_id}>
                       <TableCell component="td" scope="row">
-                       {row.customer}
+                        <ListItemText primary={row.customer}/>
                       </TableCell>
-                      <TableCell numeric>{date}</TableCell>
-                      <TableCell numeric>{hourDate}</TableCell>
+                      <TableCell numeric>
+                        <ListItemText secondary={date}/>
+                      </TableCell>
+                      <TableCell numeric>
+                        <ListItemText secondary={hourDate}/>
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -265,8 +279,6 @@ class Consultas extends Component {
               </TableRow>
             </TableFooter>
           </Table>
-        </div>
-      </Paper>
       </TabContainer>}
       </section>
       </div>
