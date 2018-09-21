@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './pacientes.css';
 import $ from 'jquery';
-import { Scrollbars } from 'react-custom-scrollbars';
 import PubSub from 'pubsub-js';
 import MenuLateral from './components/Menu';
 import TopMenu from './components/TopMenu';
@@ -13,6 +12,19 @@ import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableFooter from '@material-ui/core/TableFooter';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
+import FirstPageIcon from '@material-ui/icons/FirstPage';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import LastPageIcon from '@material-ui/icons/LastPage';
+import { withStyles } from '@material-ui/core/styles';
 // import './custom-animation.css';
 
 function TabContainer(props) {
@@ -22,13 +34,8 @@ function TabContainer(props) {
     </Typography>
   );
 }
-const styles = theme => ({
-  root: {
-    width: '100%',
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-  },
-});
+
+let counter = 0;
 
 class Consultas extends Component {
   constructor() {
@@ -40,11 +47,26 @@ class Consultas extends Component {
       search: '',
       open: false,
       value: 'dia',
+      rows: [],
+      //   this.createData('Cupcake', 305, 3.7),
+      //   this.createData('Donut', 452, 25.0),
+      //   this.createData('Eclair', 262, 16.0),
+      //   this.createData('Frozen yoghurt', 159, 6.0),
+      //   this.createData('Gingerbread', 356, 16.0),
+      //   this.createData('Honeycomb', 408, 3.2),
+      //   this.createData('Ice cream sandwich', 237, 9.0),
+      //   this.createData('Jelly Bean', 375, 0.0),
+      // ].sort((a, b) => (a.calories < b.calories ? -1 : 1)),
+      page: 0,
+      rowsPerPage: 5,
     };
     this.updateSearch = this.updateSearch.bind(this);
-    // this.onOpenModal=this.onOpenModal.bind(this);
-    // this.onCloseModal=this.onCloseModal.bind(this);
     this.handleTabChange = this.handleTabChange.bind(this);
+  }
+
+  createData(name, calories, fat) {
+    counter += 1;
+    return { id: counter, name, calories, fat };
   }
 
   componentDidMount() {
@@ -54,6 +76,7 @@ class Consultas extends Component {
       dataType: 'json',
       success: function(resultado){
         console.log('resultado', resultado);
+        this.setState({rows: resultado})
         this.setState({lista: resultado})
       }.bind(this),
       error: function(resultado) {
@@ -92,9 +115,37 @@ class Consultas extends Component {
     this.setState({ value });
   }
 
+  handleChangePage = (event, page) => {
+    this.setState({ page });
+  };
+
+  handleChangeRowsPerPage = event => {
+    this.setState({ rowsPerPage: event.target.value });
+  };
+
+  handleFirstPageButtonClick = event => {
+    this.onChangePage(event, 0);
+  };
+
+  handleBackButtonClick = event => {
+    this.onChangePage(event, this.page - 1);
+  };
+
+  handleNextButtonClick = event => {
+    this.onChangePage(event, this.page + 1);
+  };
+
+  handleLastPageButtonClick = event => {
+    this.onChangePage(
+      event,
+      Math.max(0, Math.ceil(this.count / this.rowsPerPage) - 1),
+    );
+  };
+
   render() {
-    const { open } = this.state;
     const { value } = this.state;
+    const { rows, rowsPerPage, page } = this.state;
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
     let formularioConsulta;
     if (!this.state.isHidden) {
       formularioConsulta = <FormCadastroConsulta/>
@@ -108,7 +159,6 @@ class Consultas extends Component {
       <main className="content-wrap">
         <header className="content-head">
           <h1>Consultas</h1>
-
           <div className="action">
             <button onClick={this.toggleHidden.bind(this)}>
               Nova Consulta
@@ -117,54 +167,101 @@ class Consultas extends Component {
         </header>
 
         <div className="content">
-        <Scrollbars
-        onScroll={this.handleScroll}
-        onScrollFrame={this.handleScrollFrame}
-        onScrollStart={this.handleScrollStart}
-        onScrollStop={this.handleScrollStop}
-        onUpdate={this.handleUpdate}
-        renderView={this.renderView}
-        renderTrackHorizontal={this.renderTrackHorizontal}
-        renderTrackVertical={this.renderTrackVertical}
-        renderThumbHorizontal={this.renderThumbHorizontal}
-        renderThumbVertical={this.renderThumbVertical}
-        autoHide
-        autoHideTimeout={1000}
-        autoHideDuration={200}
-        autoHeight
-        autoHeightMin={0}
-        autoHeightMax={430}
-        thumbMinSize={30}
-        universal={true}>
-
          {formularioConsulta}
-
-         <div>
-        <AppBar position="sticky">
-          <Tabs value={value} onChange={this.handleTabChange}>
-            <Tab value="dia" label="Consultas do dia" />
-            <Tab value="mes" label="Consultas do mês" />
-          </Tabs>
-        </AppBar>
-        {value === 'dia' && <TabContainer><section className="person-boxes">
-        {
-          this.state.lista.map(function(paciente, i){
-            return (
-              <div>
-              <List>
-                <ListItem>
-                  <ListItemText primary={paciente.customer} secondary={paciente.start_time} />
-                </ListItem>
-              </List>
-              </div>
-              );
-            }.bind(this))
-            }
-           </section></TabContainer>}
-        {value === 'mes' && <TabContainer>Item Two</TabContainer>}
+          <div className="calendar-header">
+            <AppBar position="relative">
+              <Tabs value={value} onChange={this.handleTabChange} centered fullWidth>
+                <Tab value="dia" label="Consultas do dia" />
+                <Tab value="mes" label="Consultas do mês" />
+              </Tabs>
+            </AppBar>
+            <section className="calendar-body">
+              {value === 'dia' && <TabContainer>
+              {
+                this.state.lista.map(function(paciente, i){
+                  return (
+                    <div>
+                      <List>
+                        <ListItem>
+                          <ListItemText key={i} primary={paciente.customer} secondary={paciente.start_time} />
+                        </ListItem>
+                      </List>
+                    </div>
+                  );
+                 })
+              }
+              </TabContainer>}
+              {value === 'mes' && <TabContainer className="style1"> 
+              {/*<div className="">
+              <IconButton
+                onClick={this.handleFirstPageButtonClick}
+                disabled={page === 0}
+                aria-label="First Page"
+              >
+                {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+              </IconButton>
+              <IconButton
+                onClick={this.handleBackButtonClick}
+                disabled={page === 0}
+                aria-label="Previous Page"
+              >
+                {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+              </IconButton>
+              <IconButton
+                onClick={this.handleNextButtonClick}
+                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+                aria-label="Next Page"
+              >
+                {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+              </IconButton>
+              <IconButton
+                onClick={this.handleLastPageButtonClick}
+                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+                aria-label="Last Page"
+              >
+                {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+              </IconButton>
+            </div> */}
+              <Paper className='style1'>
+                <div className=''>
+                  <Table className=''>
+                    <TableBody>
+                    {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+                    return (
+                    <TableRow key={row.id}>
+                      <TableCell component="th" scope="row">
+                       {row.name}
+                      </TableCell>
+                      <TableCell numeric>{row.calories}</TableCell>
+                      <TableCell numeric>{row.fat}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 48 * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  colSpan={3}
+                  count={rows.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onChangePage={this.handleChangePage}
+                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                />
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </div>
+      </Paper>
+      </TabContainer>}
+      </section>
       </div>
 
-          </Scrollbars>
         </div>
       </main>
     </div>
