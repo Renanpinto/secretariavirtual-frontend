@@ -59,7 +59,7 @@ class Consultas extends Component {
       error: function(resultado) {
         console.log("deu ruim: ", resultado);
       }
-      
+
     });
     PubSub.subscribe('atualiza-lista', function(topico, data) {
       this.state.lista.push(data);
@@ -98,24 +98,24 @@ class Consultas extends Component {
     let formularioConsulta;
     if (!this.state.isHidden) {
       formularioConsulta = <FormCadastroConsulta/>
-    } 
+    }
 
     return (
       <div className="dashboard">
       <TopMenu onSearch={this.updateSearch}/>
       <MenuLateral/>
-      
+
       <main className="content-wrap">
         <header className="content-head">
           <h1>Consultas</h1>
-            
+
           <div className="action">
             <button onClick={this.toggleHidden.bind(this)}>
               Nova Consulta
             </button>
           </div>
         </header>
-        
+
         <div className="content">
         <Scrollbars
         onScroll={this.handleScroll}
@@ -136,9 +136,9 @@ class Consultas extends Component {
         autoHeightMax={430}
         thumbMinSize={30}
         universal={true}>
-         
+
          {formularioConsulta}
-         
+
          <div>
         <AppBar position="sticky">
           <Tabs value={value} onChange={this.handleTabChange}>
@@ -153,7 +153,7 @@ class Consultas extends Component {
               <div>
               <List>
                 <ListItem>
-                  <ListItemText primary={paciente.customer_id} secondary={paciente.start_time} />
+                  <ListItemText primary={paciente.customer} secondary={paciente.start_time} />
                 </ListItem>
               </List>
               </div>
@@ -163,7 +163,7 @@ class Consultas extends Component {
            </section></TabContainer>}
         {value === 'mes' && <TabContainer>Item Two</TabContainer>}
       </div>
-      
+
           </Scrollbars>
         </div>
       </main>
