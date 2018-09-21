@@ -227,13 +227,22 @@ class Consultas extends Component {
                   <Table className=''>
                     <TableBody>
                     {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+                      let rowDate = new Date(row.start_time);
+                      let day = rowDate.getDate();
+                      let month = rowDate.getMonth()+1;
+                      let year = rowDate.getFullYear();
+                      let hour = rowDate.getUTCHours();
+                      let minutes = rowDate.getUTCMinutes();
+
+                      let date = `${day}/${month}/${year}`; 
+                      let hourDate = `${hour}:${minutes}`;
                     return (
-                    <TableRow key={row.id}>
-                      <TableCell component="th" scope="row">
-                       {row.name}
+                    <TableRow key={row.customer_id}>
+                      <TableCell component="td" scope="row">
+                       {row.customer}
                       </TableCell>
-                      <TableCell numeric>{row.calories}</TableCell>
-                      <TableCell numeric>{row.fat}</TableCell>
+                      <TableCell numeric>{date}</TableCell>
+                      <TableCell numeric>{hourDate}</TableCell>
                     </TableRow>
                   );
                 })}
