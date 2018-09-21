@@ -7,7 +7,10 @@ import TopMenu from './components/TopMenu';
 class Home extends Component {
   constructor() {
     super();
-    this.state = { lista: [] };
+    this.state = { 
+      customers: [],
+      appointments: [],
+     };
   }
 
   componentDidMount() {
@@ -16,9 +19,16 @@ class Home extends Component {
       crossDomain: true,
       dataType: 'json',
       success: function(resultado){
-        console.log('resultado', resultado);
-        this.setState({lista: resultado.length})
-        console.log('res', this.state);
+        this.setState({customers: resultado.length})
+      }.bind(this)
+    });
+
+    $.ajax({
+      url: 'http://ema-api.herokuapp.com/api/appointments',
+      crossDomain: true,
+      dataType: 'json',
+      success: function(resultado){
+        this.setState({appointments: resultado.length})
       }.bind(this)
     });
     
@@ -60,7 +70,7 @@ class Home extends Component {
               </div>
               
               <div className="box-content">
-                <span className="big">10</span>
+                <span className="big">{this.state.appointments}</span>
                 Consultas
               </div>
             </div>
@@ -71,7 +81,7 @@ class Home extends Component {
               </div>
               
               <div className="box-content">
-                <span className="big">{this.state.lista}</span>
+                <span className="big">{this.state.customers}</span>
                 Pacientes
               </div>
             </div>
