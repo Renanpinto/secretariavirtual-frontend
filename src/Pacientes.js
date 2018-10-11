@@ -5,6 +5,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import PubSub from 'pubsub-js';
 import Modal from 'react-responsive-modal';
 import FormCadastroPaciente from './components/FormCadastroPaciente';
+import FormEdicaoPaciente from './components/FormEdicaoPaciente';
 
 
 class Pacientes extends Component {
@@ -16,9 +17,10 @@ class Pacientes extends Component {
       phone: '',
       search: '',
       open: false,
+      pacienteId: '',
     };
     this.updateSearch = this.updateSearch.bind(this);
-    // this.onOpenModal=this.onOpenModal.bind(this);
+    this.onOpenModal=this.onOpenModal.bind(this);
     this.onCloseModal=this.onCloseModal.bind(this)
   }
 
@@ -49,9 +51,9 @@ class Pacientes extends Component {
   }
 
 
-  onOpenModal() {
-    console.log('open', this.state.open);
-    this.setState({ open: true });
+  onOpenModal(event) {
+    this.setState({ open: true , pacienteId: event.target.id});
+    
   }
 
   onCloseModal() {
@@ -121,9 +123,11 @@ class Pacientes extends Component {
                     transitionExitActive: 'transition-exit-active',
                   }}
                   animationDuration={500}>
-                <p>
-                  <FormCadastroPaciente/>
-                </p>
+                <div>
+                  {console.log('open', this.state.open)}
+    {console.log('pacienteid', this.state.pacienteId)}
+                  <FormEdicaoPaciente id={this.state.pacienteId}/>
+                </div>
                 </Modal>
 
               </div>
@@ -132,15 +136,15 @@ class Pacientes extends Component {
                 this.state.lista.map(function(paciente, i){
                 console.log('paciente', paciente.name);
                 return (
-                  <div key={paciente.id}>
-                    <button className="btn-modal" onClick={this.onOpenModal.bind(this)}>
-                      <div className="person-box">
+                  <div key={paciente.id} >
+                    <button className="btn-modal" onClick={this.onOpenModal}>
+                      <div className="person-box" id={paciente.id}>
                         <div className="box-avatar">
                           <img src="http://icons.iconarchive.com/icons/papirus-team/papirus-status/512/avatar-default-icon.png" alt={paciente.name}/>
                         </div>
     
                         <div className="box-bio">
-                          <h2 className="bio-name">{paciente.name}</h2>
+                          <h2 className="bio-name">{paciente.name} </h2>
                           <p className="bio-position">{paciente.email}</p>
                         </div>
                       </div>
