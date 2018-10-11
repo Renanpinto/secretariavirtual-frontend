@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './home.css';
+// import './home.css';
 import MenuLateral from './components/Menu';
 import TopMenu from './components/TopMenu';
 import Agenda from './components/agenda';

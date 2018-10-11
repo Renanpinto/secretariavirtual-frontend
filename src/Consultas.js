@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import './pacientes.css';
+import './consulta.css';
 import $ from 'jquery';
 import PubSub from 'pubsub-js';
-import MenuLateral from './components/Menu';
-import TopMenu from './components/TopMenu';
 import FormCadastroConsulta from './components/FormCadastroConsulta';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -18,14 +16,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
-import { withStyles } from '@material-ui/core/styles';
-// import './custom-animation.css';
+
 
 function TabContainer(props) {
   return (
@@ -34,8 +25,6 @@ function TabContainer(props) {
     </Typography>
   );
 }
-
-let counter = 0;
 
 class Consultas extends Component {
   constructor() {
@@ -48,15 +37,6 @@ class Consultas extends Component {
       open: false,
       value: 'dia',
       rows: [],
-      //   this.createData('Cupcake', 305, 3.7),
-      //   this.createData('Donut', 452, 25.0),
-      //   this.createData('Eclair', 262, 16.0),
-      //   this.createData('Frozen yoghurt', 159, 6.0),
-      //   this.createData('Gingerbread', 356, 16.0),
-      //   this.createData('Honeycomb', 408, 3.2),
-      //   this.createData('Ice cream sandwich', 237, 9.0),
-      //   this.createData('Jelly Bean', 375, 0.0),
-      // ].sort((a, b) => (a.calories < b.calories ? -1 : 1)),
       page: 0,
       rowsPerPage: 5,
     };
@@ -64,12 +44,7 @@ class Consultas extends Component {
     this.handleTabChange = this.handleTabChange.bind(this);
   }
 
-  createData(name, calories, fat) {
-    counter += 1;
-    return { id: counter, name, calories, fat };
-  }
-
-  componentDidMount() {
+ componentDidMount() {
     $.ajax({
       url: 'http://ema-api.herokuapp.com/api/appointments',
       crossDomain: true,
@@ -152,11 +127,7 @@ class Consultas extends Component {
     }
 
     return (
-      <div className="dashboard">
-      <TopMenu onSearch={this.updateSearch}/>
-      <MenuLateral/>
-
-      <main className="content-wrap">
+      <main>
         <header className="content-head">
           <h1>Consultas</h1>
           <div className="action">
@@ -172,7 +143,7 @@ class Consultas extends Component {
             <AppBar position="relative">
               <Tabs value={value} onChange={this.handleTabChange} centered fullWidth>
                 <Tab value="dia" label="Consultas do dia" />
-                <Tab value="mes" label="Consultas do mês" />
+                <Tab value="mes" label="Próximas consultas" />
               </Tabs>
             </AppBar>
             <section className="calendar-body">
@@ -188,14 +159,14 @@ class Consultas extends Component {
                               <ListItemText primary={paciente.customer}/>
                             </TableCell>
                             <TableCell numeric>
-                              <ListItemText secondary={paciente.start_time}/>
+                              <ListItemText secondary={paciente.date}/>
                             </TableCell>
                           </TableRow>
                         </TableBody>
                       </Table>
                       <List>
                         <ListItem>
-                          <ListItemText key={i} primary={paciente.customer} secondary={paciente.start_time} />
+                          <ListItemText key={i} primary={paciente.customer} secondary={paciente.date} />
                         </ListItem>
                       </List>
                     </div>
@@ -236,8 +207,8 @@ class Consultas extends Component {
             </div> */}
                   <Table className=''>
                     <TableBody>
-                    {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-                      let rowDate = new Date(row.start_time);
+                      {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+                      let rowDate = new Date(row.date);
                       let day = rowDate.getDate();
                       let month = rowDate.getMonth()+1;
                       let year = rowDate.getFullYear();
@@ -259,33 +230,31 @@ class Consultas extends Component {
                       </TableCell>
                     </TableRow>
                   );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 48 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  colSpan={3}
-                  count={rows.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  onChangePage={this.handleChangePage}
-                  onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                />
-              </TableRow>
-            </TableFooter>
-          </Table>
-      </TabContainer>}
-      </section>
-      </div>
-
+                       })}
+                      {emptyRows > 0 && (
+                      <TableRow style={{ height: 48 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                      )}
+                    </TableBody>
+                    <TableFooter>
+                      <TableRow>
+                        <TablePagination
+                          colSpan={3}
+                          count={rows.length}
+                          rowsPerPage={rowsPerPage}
+                          page={page}
+                          onChangePage={this.handleChangePage}
+                          onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                        />
+                      </TableRow>
+                    </TableFooter>
+                  </Table>
+                </TabContainer>}
+              </section>
+            </div>
         </div>
       </main>
-    </div>
     );
   }
 }

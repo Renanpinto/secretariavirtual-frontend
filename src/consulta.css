@@ -1,0 +1,46 @@
+section .form-consulta {
+    background: #fff;
+    border: 1px solid #ede8f0;
+    border-radius: 5px;
+    color: #99a0b0;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    height: 100%;
+    margin-bottom: 2em;
+    margin-top: 2em;
+    outline: none;
+    width: 100%;
+  }
+  
+  
+  section .form-consulta input, button {
+    border: none;
+    outline: none;
+    background: none;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+  }
+  
+  section .form-consulta .btn-cadastro {
+    display: block;
+    margin: 5% auto 2% auto;
+    width: 260px;
+    height: 36px;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+    background: #4b84fe
+  }
+  
+  
+
+  main .content .calendar-header {
+    margin-top: 3em;
+  }
+  
+  main .content .calendar-header .calendar-body {
+      background: #fff;
+      height: 100%;
+      text-align: center;
+      border: 1px solid #ede8f0;
+      border-radius: 5px;
+  }

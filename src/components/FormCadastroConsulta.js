@@ -17,7 +17,7 @@ export default class Menu extends React.Component {
     super();
     this.state = {
       lista: [],
-      selectedDate: new Date('2018-01-01T18:54'),
+      selectedDate: new Date(),
       selectedPaciente: '',
       open: false,
     };
@@ -28,14 +28,15 @@ export default class Menu extends React.Component {
   }
 
   // componentDidMount() {
-    //   PubSub.subscribe('lista-pacientes', function(topico, data) {
-      //     console.log('didmount');
-      //     this.state.lista.push(data);
-      //     console.log(this.state)
-      //     const retorno = Object.assign(this.state.lista, data);
-      //     this.setState({lista: retorno});
-      //   }.bind(this));
-      // }
+  //   PubSub.subscribe('lista-pacientes', function(topico, data) {
+  //     console.log('data', data);
+  //     this.state.lista.push(data);
+  //     console.log(this.state)
+  //     const retorno = Object.assign(this.state.lista, data);
+  //     this.setState({lista: retorno});
+  //   }.bind(this));
+  //   console.log('data', this.state);
+  // }
       
   componentDidMount() {
     $.ajax({
@@ -79,7 +80,10 @@ export default class Menu extends React.Component {
           start_time: this.state.selectedDate
         }))
         console.log("enviado com sucesso");
-        this.setState({ open: true });
+        this.setState({ open: true,
+              selectedDate: new Date(),
+              selectedPaciente: '', 
+          });
         const data = this.state;
         PubSub.publish('atualiza-consultas', data);
       }.bind(this),
@@ -110,17 +114,16 @@ export default class Menu extends React.Component {
   render() {
     const { selectedDate, selectedPaciente } = this.state;
     return ( 
-      <section>
+      <section >
         <form className = "form-consulta" onSubmit = { this.enviaForm } method = "post" >
         <FormControl >
-        <InputLabel htmlFor="age-simple">Paciente</InputLabel>
+        <InputLabel htmlFor="paciente" className="td-consulta">Paciente</InputLabel>
         <Select
             value={selectedPaciente}
             onChange={this.handlePacienteChange}
-            inputProps={{
-              name: 'age',
-              id: 'age-simple',
-            }}>
+            inputProps={{ id: 'paciente' }}
+            className="td-consulta"
+            >
           {
             this.state.lista.map((paciente, i) => ( 
               <MenuItem key = { i } value = { paciente.id }>
@@ -138,7 +141,7 @@ export default class Menu extends React.Component {
 
 
         </MuiPickersUtilsProvider> 
-        <button type = "submit" className = "submit" > Cadastrar </button> 
+        <button type = "submit" className = "btn-cadastro" > Cadastrar </button> 
         </FormControl>
         </form> 
         <Snackbar

@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import './home.css';
 import $ from 'jquery';
-import MenuLateral from './components/Menu';
-import TopMenu from './components/TopMenu';
 
 class Home extends Component {
   constructor() {
@@ -36,10 +33,6 @@ class Home extends Component {
 
   render() {
     return (
-      <div className="dashboard">
-      <TopMenu/>
-      <MenuLateral/>
-      
       <main className="content-wrap">
         <header className="content-head">
           <h1>Geral</h1>
@@ -99,7 +92,6 @@ class Home extends Component {
           </section>
         </div>
       </main>
-    </div>
     );
   }
 }

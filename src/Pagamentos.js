@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './pagamentos.css';
 import $ from 'jquery';
-import MenuLateral from './components/Menu';
-import TopMenu from './components/TopMenu';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 import './react-table.css';
@@ -18,8 +16,6 @@ class Pagamentos extends Component {
     this.updateSearch = this.updateSearch.bind(this);
   }
 
-  
-
   componentDidMount() {
     $.ajax({
       url: 'http://ema-api.herokuapp.com/api/customers',
@@ -31,9 +27,7 @@ class Pagamentos extends Component {
       error: function(resultado) {
         console.log("deu ruim API: ", resultado);
       }
-      
     });
-   
   }
 
    updateSearch(event){
@@ -51,11 +45,6 @@ class Pagamentos extends Component {
 
 
   return (
-
-    <div className="dashboard">
-
-        <TopMenu onSearch={this.updateSearch}/>
-        <MenuLateral/>
 
         <main className="content-wrap">
 
@@ -122,7 +111,6 @@ class Pagamentos extends Component {
               </div>
           
         </main>
-      </div>
     );
   }
 }
