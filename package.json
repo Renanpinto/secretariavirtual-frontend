@@ -6,6 +6,7 @@
     "@material-ui/core": "^3.1.0",
     "@material-ui/icons": "^3.0.1",
     "date-fns": "^2.0.0-alpha.16",
+    "graylog2": "^0.2.1",
     "jquery": "^3.3.1",
     "material-ui-pickers": "^1.0.0-rc.14",
     "moment": "^2.19.3",
@@ -24,9 +25,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "lint": "eslint src/ test/",
-    "lint:fix": "eslint --fix src/ test/"
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
     "cypress": "^3.1.0"

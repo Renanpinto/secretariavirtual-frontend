@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import './pagamentos.css';
 import $ from 'jquery';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import './react-table.css';
+import '../css/react-table.css';
+import '../css/pagamentos.css';
 
 
 class Pagamentos extends Component {

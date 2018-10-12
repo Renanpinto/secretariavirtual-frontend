@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import './consulta.css';
 import $ from 'jquery';
 import PubSub from 'pubsub-js';
-import FormCadastroConsulta from './components/FormCadastroConsulta';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -16,6 +14,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import FormCadastroConsulta from '../components/FormCadastroConsulta';
+import '../css/consulta.css';
 
 
 function TabContainer(props) {
@@ -50,7 +50,6 @@ class Consultas extends Component {
       crossDomain: true,
       dataType: 'json',
       success: function(resultado){
-        console.log('resultado', resultado);
         this.setState({rows: resultado})
         this.setState({lista: resultado})
       }.bind(this),
