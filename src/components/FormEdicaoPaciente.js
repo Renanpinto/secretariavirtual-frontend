@@ -21,6 +21,7 @@ export default class Menu extends React.Component {
   }
   
   componentDidMount() {
+    console.log(this.props.id)
     $.ajax({
       url: `http://ema-api.herokuapp.com/api/customers/${this.props.id}`,
       crossDomain: true,
@@ -81,7 +82,7 @@ export default class Menu extends React.Component {
         return (
           <section className='form-box'>
          <form className="form" onSubmit={this.enviaForm} method="put">
-           <h2>Cadastro de pacientes</h2>
+           <h2>Edição de paciente</h2>
            <label>
              <span>Nome</span>
              <input type="text" value={this.state.name} onChange={this.setName}/>

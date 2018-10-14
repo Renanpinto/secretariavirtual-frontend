@@ -6,6 +6,7 @@ import TopMenu from './components/TopMenu';
 class App extends Component {
  
   render() {
+    console.log(this.props.children);
     return (
       <div className="dashboard">
       <TopMenu/>

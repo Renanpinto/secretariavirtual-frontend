@@ -52,6 +52,7 @@ class Pacientes extends Component {
 
 
   onOpenModal(event) {
+    console.log('event', event.target)
     this.setState({ open: true , pacienteId: event.target.id});
     
   }
@@ -124,8 +125,7 @@ class Pacientes extends Component {
                   }}
                   animationDuration={500}>
                 <div>
-                  {console.log('open', this.state.open)}
-    {console.log('pacienteid', this.state.pacienteId)}
+                  {console.log('pacienteid', this.state.pacienteId)}
                   <FormEdicaoPaciente id={this.state.pacienteId}/>
                 </div>
                 </Modal>
@@ -137,8 +137,8 @@ class Pacientes extends Component {
                 console.log('paciente', paciente.name);
                 return (
                   <div key={paciente.id} >
-                    <button className="btn-modal" onClick={this.onOpenModal}>
-                      <div className="person-box" id={paciente.id}>
+                    <button className="btn-modal" id={paciente.id} onClick={this.onOpenModal}>
+                      <div className="person-box">
                         <div className="box-avatar">
                           <img src="http://icons.iconarchive.com/icons/papirus-team/papirus-status/512/avatar-default-icon.png" alt={paciente.name}/>
                         </div>
