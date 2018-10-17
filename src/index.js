@@ -25,7 +25,7 @@ ReactDOM.render(
   <BrowserRouter>
     <App>
       <Switch>
-        <Route exact path="/login" component={Login} />
+        <Route exact path="/login" render={() => (verificaAutenticacao() ? (<Redirect to="/home"/>) : (<Login/>))} />
         <Route exact path="/"  render={() => (verificaAutenticacao() ? (<Home />) : (<Redirect to="/login"/>))}/> 
         <Route exact path="/home" render={() => (verificaAutenticacao() ? (<Home />) : (<Redirect to="/login"/>))}/>
         <Route exact path="/pacientes" render={() => (verificaAutenticacao() ? (<Pacientes />) : (<Redirect to="/login"/>))}/> 
