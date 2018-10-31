@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
 import ReactTable from "react-table";
-import "react-table/react-table.css";
+import 'react-table/react-table.css';
 import '../css/react-table.css';
 import '../css/pagamentos.css';
+import request from '../request/helper/customer';
 
 
 class Pagamentos extends Component {
@@ -17,17 +17,9 @@ class Pagamentos extends Component {
   }
 
   componentDidMount() {
-    $.ajax({
-      url: 'http://ema-api.herokuapp.com/api/customers',
-      crossDomain: true,
-      dataType: 'json',
-      success: function(resultado){        
-        this.setState({lista: resultado})        
-      }.bind(this),
-      error: function(resultado) {
-        console.log("deu ruim API: ", resultado);
-      }
-    });
+    const resultado = request.getCustomers();
+    console.log(resultado.then())
+    if (resultado) this.setState({ lista: resultado })
   }
 
    updateSearch(event){
