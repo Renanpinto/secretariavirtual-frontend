@@ -15,10 +15,17 @@ import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import FormCadastroConsulta from '../components/FormCadastroConsulta';
+import FormEdicaoConsulta from '../components/FormEdicaoConsulta';
+import Modal from 'react-responsive-modal';
 import '../css/consulta.css';
 
 
 function TabContainer(props) {
+  // const theme = createMuiTheme({
+  //   typography: {
+  //     useNextVariants: true,
+  //   },
+  // });
   return (
     <Typography component="div" style={{ padding: 8 * 3 }}>
       {props.children}
@@ -42,6 +49,8 @@ class Consultas extends Component {
     };
     this.updateSearch = this.updateSearch.bind(this);
     this.handleTabChange = this.handleTabChange.bind(this);
+    this.onOpenModal=this.onOpenModal.bind(this);
+    this.onCloseModal=this.onCloseModal.bind(this)
   }
 
  componentDidMount() {
@@ -68,7 +77,6 @@ class Consultas extends Component {
 
 
   onOpenModal() {
-    console.log('open', this.state.open);
     this.setState({ open: true });
   }
 
@@ -77,7 +85,6 @@ class Consultas extends Component {
   }
 
   toggleHidden() {
-    console.log('hidden', this.state.isHidden);
     this.setState({ isHidden: !this.state.isHidden })
   }
 
@@ -115,10 +122,12 @@ class Consultas extends Component {
       Math.max(0, Math.ceil(this.count / this.rowsPerPage) - 1),
     );
   };
+ 
 
   render() {
     const { value } = this.state;
     const { rows, rowsPerPage, page } = this.state;
+    const { open } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
     let formularioConsulta;
     if (!this.state.isHidden) {
@@ -127,6 +136,21 @@ class Consultas extends Component {
 
     return (
       <main>
+        <Modal
+          open={open}
+          onClose={this.onCloseModal}
+          center
+          classNames={{
+            transitionEnter: 'transition-enter',
+            transitionEnterActive: 'transition-enter-active',
+            transitionExit: 'transition-exit-active',
+            transitionExitActive: 'transition-exit-active',
+          }}
+          animationDuration={500}>
+            <div>
+                <FormEdicaoConsulta/>
+            </div>
+        </Modal>
         <header className="content-head">
           <h1>Consultas</h1>
           <div className="action">
@@ -217,9 +241,11 @@ class Consultas extends Component {
                       let date = `${day}/${month}/${year}`; 
                       let hourDate = `${hour}:${minutes}`;
                     return (
-                    <TableRow key={row.customer_id}>
+                      <TableRow key={row.customer_id}>
                       <TableCell component="td" scope="row">
-                        <ListItemText primary={row.customer}/>
+                        <button onClick={this.onOpenModal}>
+                          <ListItemText primary={row.customer}/>
+                        </button>
                       </TableCell>
                       <TableCell numeric>
                         <ListItemText secondary={date}/>
