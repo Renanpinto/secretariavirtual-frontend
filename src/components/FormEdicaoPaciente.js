@@ -1,6 +1,11 @@
 import React from 'react';
 import $ from 'jquery';
 import PubSub from 'pubsub-js';
+import '../css/form-config.css';
+import { TextField } from '@material-ui/core';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 export default class Menu extends React.Component {
   constructor(props) {
@@ -11,12 +16,13 @@ export default class Menu extends React.Component {
       name: '',
       email: '',
       phone: '',
+      open: false,
     };
     this.enviaForm = this.enviaForm.bind(this);
     this.setName = this.setName.bind(this);
     this.setEmail = this.setEmail.bind(this);
     this.setPhone = this.setPhone.bind(this);
-    this.enviaForm = this.enviaForm;
+    this.handleClose = this.handleClose.bind(this);
     
   }
   
@@ -51,6 +57,13 @@ export default class Menu extends React.Component {
     this.setState({phone:event.target.value});
   }
 
+  handleClose(event, reason) {
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState({ open: false });
+  }
+
   enviaForm(event) {
     event.preventDefault();
     console.log("dados sendo enviados");
@@ -69,7 +82,7 @@ export default class Menu extends React.Component {
         console.log("enviado com sucesso");
         const data = this.state;
         PubSub.publish('atualiza-lista', data);
-        this.setState({ name:'', email:'', phone:'' });
+        this.setState({ open: true })
       }.bind(this),
       error: function(resposta){
           console.log("erro");
@@ -80,27 +93,40 @@ export default class Menu extends React.Component {
 
     render() {
         return (
-          <section className='form-box'>
-         <form className="form" onSubmit={this.enviaForm} method="put">
+          <section className='form-box-config'>
+         <form className="form-config" onSubmit={this.enviaForm} method="put">
            <h2>Edição de paciente</h2>
-           <label>
-             <span>Nome</span>
-             <input type="text" value={this.state.name} onChange={this.setName}/>
-           </label>
-           <label>
-             <span>Email</span>
-             <input type="email" value={this.state.email} onChange={this.setEmail}/>
-           </label>
-           <label>
-             <span>Telefone</span>
-             <input type="tel" value={this.state.phone} onChange={this.setPhone}/>
-           </label>
-           <label>
-             <span>Foto</span>
-             <input type="file" />
-           </label>
+           <TextField id="nome" label="Nome" value={this.state.name} 
+           onChange={this.setName}
+            type="text" margin="normal" />
+            <TextField id="email" label="Email" value={this.state.email} 
+           onChange={this.setEmail}
+            type="email" margin="normal" />
+            <TextField id="telefone" label="Telefone" value={this.state.phone} 
+           onChange={this.setPhone}
+            type="tel" margin="normal" />
+            <TextField id="foto" label="Foto" 
+            type="file" margin="normal" />
            <button type="submit" className="submit">Alterar</button>
          </form> 
+         <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          open={this.state.open}
+          autoHideDuration={3000}
+          onClose={this.handleClose}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">Alterado com sucesso</span>}
+          action={[
+            <IconButton key="close" aria-label="Close" color="inherit" onClick={this.handleClose}>
+              <CloseIcon />
+            </IconButton>,
+          ]}
+        />
      </section>
         ); 
     }
