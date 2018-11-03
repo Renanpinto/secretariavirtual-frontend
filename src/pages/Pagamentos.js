@@ -3,7 +3,7 @@ import ReactTable from "react-table";
 import 'react-table/react-table.css';
 import '../css/react-table.css';
 import '../css/pagamentos.css';
-import request from '../request/helper/customer';
+import $ from 'jquery'
 
 
 class Pagamentos extends Component {
@@ -16,10 +16,19 @@ class Pagamentos extends Component {
     this.updateSearch = this.updateSearch.bind(this);
   }
 
-  componentDidMount() {
-    const resultado = request.getCustomers();
-    console.log(resultado.then())
-    if (resultado) this.setState({ lista: resultado })
+  componentWillMount() {
+    $.ajax({
+      url: 'http://ema-api.herokuapp.com/api/customers',
+      crossDomain: true,
+      dataType: 'json',
+      success: function(resultado){
+        console.log(resultado)
+        this.setState({ lista: resultado })
+      }.bind(this),
+      error: function(resultado) {
+        console.log("deu ruim API: ", resultado);
+      }
+    });
   }
 
    updateSearch(event){
@@ -45,7 +54,7 @@ class Pagamentos extends Component {
           </header>
           <br></br>
           
-              <div>
+              <div className="content">
                 <ReactTable
                   pageText= 'Pagina'
                   ofText='de'
@@ -97,7 +106,7 @@ class Pagamentos extends Component {
                     }
                 ]}
                     defaultPageSize={10}
-                    className="-striped -highlight"
+                    className="-striped -highlight custom"
                 />
                 
               </div>
