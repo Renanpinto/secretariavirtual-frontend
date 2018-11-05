@@ -3,7 +3,7 @@ import ReactTable from "react-table";
 import 'react-table/react-table.css';
 import '../css/react-table.css';
 import '../css/pagamentos.css';
-import $ from 'jquery'
+import $ from 'jquery';
 
 
 class Pagamentos extends Component {
@@ -16,45 +16,47 @@ class Pagamentos extends Component {
     this.updateSearch = this.updateSearch.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
+
     $.ajax({
       url: 'http://ema-api.herokuapp.com/api/customers',
       crossDomain: true,
       dataType: 'json',
       success: function(resultado){
-        console.log(resultado)
-        this.setState({ lista: resultado })
+        this.setState({lista: resultado})
       }.bind(this),
       error: function(resultado) {
-        console.log("deu ruim API: ", resultado);
+        console.log("deu ruim: ", resultado);
       }
+
     });
   }
 
    updateSearch(event){
     this.setState({search: event.target.value.substr(0,20)})
-    console.log('entrou aki')
   }
 
  render() {
-
   let filteredPayments = this.state.lista.filter(
       (paciente) =>{
-        return paciente.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
-      }      
+        return paciente.name.toLowerCase().indexOf(this.state.search.toLowerCase())!== -1;
+      }            
     );
-
 
   return (
 
         <main className="content-wrap">
 
           <header className="content-head">
-            <h1>Pagamentos</h1>               
+            <h1>Pagamentos</h1>     
+            <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"/></svg>
+            <input type="text" id='searchs' value={this.props.search} onChange={this.updateSearch.bind(this)}></input>          
+            </div>
           </header>
           <br></br>
           
-              <div className="content">
+              <div>
                 <ReactTable
                   pageText= 'Pagina'
                   ofText='de'
@@ -73,8 +75,7 @@ class Pagamentos extends Component {
                         },
                         {
                           Header: "E-Mail",
-                          id: "email",
-                          accessor: d => d.email
+                          accessor: "email"
                         }
                       ]
                     },
@@ -83,7 +84,8 @@ class Pagamentos extends Component {
                       columns: [
                         {
                           Header: "N de consultas",
-                          accessor: "age"
+                          //só colocar o nome da propriedade
+                          accessor: "phone"
                         }
                       ]
                     },
@@ -92,21 +94,22 @@ class Pagamentos extends Component {
                       columns: [                      
                         {
                           Header: "Vencimento",
-                          accessor: "status"
+                          accessor: "created_at"
                         },
                         {
                           Header: "Valor R$",
-                          accessor: "status"
+                          accessor: "updated_at"
                         },
                         {
                           Header: "Status",
-                          accessor: "visits"
+                          id: "status",
+                          accessor: d => d.status.toString()
                         }
                       ]
                     }
                 ]}
                     defaultPageSize={10}
-                    className="-striped -highlight custom"
+                    className="-striped -highlight"
                 />
                 
               </div>
