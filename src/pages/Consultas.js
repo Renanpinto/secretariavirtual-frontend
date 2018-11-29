@@ -61,6 +61,7 @@ class Consultas extends Component {
       success: function(resultado){
         this.setState({rows: resultado})
         this.setState({lista: resultado})
+        console.log('lista', this.state.lista)
       }.bind(this),
       error: function(resultado) {
         console.log("deu ruim: ", resultado);
@@ -163,7 +164,7 @@ class Consultas extends Component {
         <div className="content">
          {formularioConsulta}
           <div className="calendar-header">
-            <AppBar position="relative">
+            <AppBar position="inherit">
               <Tabs value={value} onChange={this.handleTabChange} centered fullWidth>
                 <Tab value="dia" label="Consultas do dia" />
                 <Tab value="mes" label="Próximas consultas" />
