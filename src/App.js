@@ -16,7 +16,7 @@ class App extends Component {
     }
     return (
       <div className="dashboard">
-      <TopMenu/>
+      <TopMenu />
       <MenuLateral/>
       
       <main className="content-wrap">

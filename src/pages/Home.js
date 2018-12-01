@@ -75,7 +75,7 @@ class Home extends Component {
               
               <div className="box-content">
                 <span className="big">{this.state.customers}</span>
-                Pacientes
+                Clientes
               </div>
             </div>
             

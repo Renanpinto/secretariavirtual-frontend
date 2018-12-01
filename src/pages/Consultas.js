@@ -74,6 +74,10 @@ class Consultas extends Component {
       const retorno = Object.assign(this.state.lista, data);
       this.setState({lista: retorno});
     }.bind(this));
+
+    PubSub.subscribe('atualiza-busca', function(topico,data) {
+        this.updateSearch(data)
+      }.bind(this));
   }
 
 
@@ -90,7 +94,8 @@ class Consultas extends Component {
   }
 
   updateSearch(event) {
-    this.setState({ search: event.target.value.substr(0, 20) });
+    console.log('aquiii', event)
+    this.setState({ search: event.substr(0, 20) });
   }
 
   handleTabChange(event, value) {
@@ -127,10 +132,20 @@ class Consultas extends Component {
 
   render() {
     const { value } = this.state;
-    const { rows, rowsPerPage, page } = this.state;
+    const { rows ,rowsPerPage, page } = this.state;
+    
     const { open } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+   
+    let filteredConsulta = this.state.lista.filter(
+      (consulta) =>{
+
+        return consulta.customer.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+      }      
+    );
+
     let formularioConsulta;
+
     if (!this.state.isHidden) {
       formularioConsulta = <FormCadastroConsulta/>
     }
@@ -173,7 +188,7 @@ class Consultas extends Component {
             <section className="calendar-body">
               {value === 'dia' && <TabContainer>
               {
-                this.state.lista.map(function(paciente, i){
+                filteredConsulta.map(function(paciente, i){
                   return (
                     <div key={paciente.customer_id}>
                       <Table className=''>
@@ -231,7 +246,7 @@ class Consultas extends Component {
             </div> */}
                   <Table className=''>
                     <TableBody>
-                      {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
+                      {filteredConsulta.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
                       let rowDate = new Date(row.date);
                       let day = rowDate.getDate();
                       let month = rowDate.getMonth()+1;

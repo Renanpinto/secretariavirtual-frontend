@@ -45,7 +45,7 @@ export default class TopMenu extends React.Component {
                 </div>
                 </Modal>
           <aside className="search-wrap">
-           <Search onSearch={this.props.onSearch} />
+           <Search />
             
             <div className="user-actions">
               <button onClick={this.onOpenModal}>

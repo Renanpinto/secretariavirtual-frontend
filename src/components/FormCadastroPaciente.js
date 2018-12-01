@@ -60,7 +60,7 @@ export default class Menu extends React.Component {
         return (
           <section className='form-box'>
          <form className="form" onSubmit={this.enviaForm} method="post">
-           <h2>Cadastro de pacientes</h2>
+           <h2>Cadastro de Clientes</h2>
            <label>
              <span>Nome</span>
              <input type="text" value={this.state.name} onChange={this.setName}/>

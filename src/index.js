@@ -23,7 +23,8 @@ function verificaAutenticacao(nextState,replace) {
 
 ReactDOM.render(
   <BrowserRouter>
-    <App>
+    <App >
+   
       <Switch>
         <Route exact path="/login" render={() => (verificaAutenticacao() ? (<Redirect to="/home"/>) : (<Login/>))} />
         <Route exact path="/"  render={() => (verificaAutenticacao() ? (<Home />) : (<Redirect to="/login"/>))}/> 
@@ -37,6 +38,6 @@ ReactDOM.render(
       </Switch>
     </App>
   </BrowserRouter>,
-    document.getElementById('root')
+   document.getElementById('root')
 );
 registerServiceWorker();

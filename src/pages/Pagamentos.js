@@ -4,7 +4,7 @@ import 'react-table/react-table.css';
 import '../css/react-table.css';
 import '../css/pagamentos.css';
 import $ from 'jquery';
-import { Grid } from '@material-ui/core';
+import PubSub from 'pubsub-js';
 
 
 class Pagamentos extends Component {
@@ -28,13 +28,16 @@ class Pagamentos extends Component {
       }.bind(this),
       error: function (resultado) {
         console.log("deu ruim: ", resultado);
-      }
-
+      }     
     });
+
+    PubSub.subscribe('atualiza-busca', function(topico,data) {
+      this.updateSearch(data)
+    }.bind(this));
   }
 
   updateSearch(event) {
-    this.setState({ search: event.target.value.substr(0, 20) })
+    this.setState({ search: event.substr(0, 20) })
   }
 
   render() {
@@ -46,15 +49,22 @@ class Pagamentos extends Component {
 
     // console.log("filteredPayments", filteredPayments)
 
-    const filteredPayments = [{
-      id: 1,
-      name: "Cliente A",
-      email: "cliente_a@email.com",
-      appointments: "4",
-      value: "440,00",
-      status: false,
-      created_at: "20/10/2018"
-    }]
+    // const filteredPayments = [{
+    //   id: 1,
+    //   name: "Cliente A",
+    //   email: "cliente_a@email.com",
+    //   appointments: "4",
+    //   value: "440,00",
+    //   status: false,
+    //   created_at: "20/10/2018"
+    // }]
+    
+    let filteredPayments = this.state.lista.filter(
+      (payment) =>{
+        //TODO quando apontar para api de pagamentos, ver por qual atribuito sera feita a busca
+        return payment.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+      }      
+    );
 
 
 
@@ -67,7 +77,7 @@ class Pagamentos extends Component {
 
 
           <h1>Pagamentos a receber</h1>
-          <Grid
+          {/* <Grid
             // container
             // // direction="row"
             // justify="center"
@@ -75,7 +85,7 @@ class Pagamentos extends Component {
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z" /></svg>
             <input type="text" id='searchs' value={this.props.search} onChange={this.updateSearch.bind(this)}></input>
-          </Grid>
+          </Grid> */}
 
         </header>
         <br></br>

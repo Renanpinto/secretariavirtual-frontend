@@ -95,7 +95,7 @@ export default class Menu extends React.Component {
         return (
           <section className='form-box-config'>
          <form className="form-config" onSubmit={this.enviaForm} method="put">
-           <h2>Edição de paciente</h2>
+           <h2>Edição de Cliente</h2>
            <TextField id="nome" label="Nome" value={this.state.name} 
            onChange={this.setName}
             type="text" margin="normal" />

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import $ from 'jquery';
 import { Scrollbars } from 'react-custom-scrollbars';
 import PubSub from 'pubsub-js';
+import TopMenu from '../components/TopMenu';
 import Modal from 'react-responsive-modal';
 import FormCadastroPaciente from '../components/FormCadastroPaciente';
 import FormEdicaoPaciente from '../components/FormEdicaoPaciente';
@@ -48,6 +49,12 @@ class Pacientes extends Component {
       const retorno = Object.assign(this.state.lista, data);
       this.setState({lista: retorno});
     }.bind(this));
+
+    PubSub.subscribe('atualiza-busca', function(topico,data) {
+      console.log('data :',data)
+        this.updateSearch(data)
+      }.bind(this));
+
   }
 
 
@@ -66,12 +73,21 @@ class Pacientes extends Component {
     this.setState({isHidden: !this.state.isHidden })
   }
 
+  
   updateSearch(event) {
-    this.setState({ search: event.target.value.substr(0, 20) });
+    this.setState({search: event.substr(0, 20) });
   }
 
   render() {
+
+    let filteredPacientes = this.state.lista.filter(
+      (paciente) =>{
+        return paciente.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+      }      
+    );
+
     const { open } = this.state;
+
     let formularioPaciente;
     if (!this.state.isHidden) {
       formularioPaciente = <FormCadastroPaciente/>
@@ -79,8 +95,9 @@ class Pacientes extends Component {
 
     return (
           <main className="content-wrap">
+
             <header className="content-head">
-              <h1>Pacientes</h1>
+              <h1>Clientes</h1>
             
               <div className="action">
                 <button onClick={this.toggleHidden.bind(this)}>
@@ -133,7 +150,7 @@ class Pacientes extends Component {
               </div>
               <section className="person-boxes">
               {
-                this.state.lista.map(function(paciente, i){
+                filteredPacientes.map(function(paciente, i){
                 console.log('paciente', paciente.name);
                 return (
                   <div key={paciente.id} >
