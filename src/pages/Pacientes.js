@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import $ from 'jquery';
 import { Scrollbars } from 'react-custom-scrollbars';
 import PubSub from 'pubsub-js';
-import TopMenu from '../components/TopMenu';
 import Modal from 'react-responsive-modal';
 import FormCadastroPaciente from '../components/FormCadastroPaciente';
 import FormEdicaoPaciente from '../components/FormEdicaoPaciente';

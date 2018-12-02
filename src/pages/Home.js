@@ -36,12 +36,6 @@ class Home extends Component {
       <main className="content-wrap">
         <header className="content-head">
           <h1>Geral</h1>
-            
-          <div className="action">
-            <button>
-              Botao pra algo
-            </button>
-          </div>
         </header>
         
         <div className="content">

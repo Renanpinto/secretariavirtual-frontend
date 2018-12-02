@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import { resolve } from 'bluebird';
 
 export default {
   getCustomers() {
