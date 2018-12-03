@@ -5,6 +5,7 @@ import '../css/react-table.css';
 import '../css/pagamentos.css';
 import $ from 'jquery';
 import PubSub from 'pubsub-js';
+import Button from '@material-ui/core/Button';
 
 
 class Pagamentos extends Component {
@@ -12,6 +13,7 @@ class Pagamentos extends Component {
     super();
     this.state = {
       lista: [],
+      pagamentos: [],
       search: ''
     };
   }
@@ -30,6 +32,18 @@ class Pagamentos extends Component {
       }     
     });
 
+    $.ajax({
+      url: 'http://ema-api.herokuapp.com/api/invoices',
+      crossDomain: true,
+      dataType: 'json',
+      success: function (resultado) {
+        this.setState({ pagamentos: resultado })
+      }.bind(this),
+      error: function (resultado) {
+        console.log("deu ruim: ", resultado);
+      }     
+    });
+
     PubSub.subscribe('atualiza-busca', function(topico,data) {
       this.updateSearch(data)
     }.bind(this));
@@ -38,6 +52,18 @@ class Pagamentos extends Component {
   updateSearch(event) {
     this.setState({ search: event.substr(0, 20) })
   }
+
+  formatarData(data) {
+    var d = new Date(data),
+        mes = '' + (d.getMonth() + 1),
+        dia = '' + d.getDate(),
+        ano = d.getFullYear();
+
+    if (mes.length < 2) mes = '0' + mes;
+    if (dia.length < 2) dia = '0' + dia;
+
+    return [dia, mes, ano].join('/');
+}
 
   render() {
     // let filteredPayments = this.state.lista.filter(
@@ -58,12 +84,12 @@ class Pagamentos extends Component {
     //   created_at: "20/10/2018"
     // }]
     
-    let filteredPayments = this.state.lista.filter(
-      (payment) =>{
-        //TODO quando apontar para api de pagamentos, ver por qual atribuito sera feita a busca
-        return payment.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
-      }      
-    );
+    // let filteredPayments = this.state.pagamentos.filter(
+    //   (payment) =>{
+    //     //TODO quando apontar para api de pagamentos, ver por qual atribuito sera feita a busca
+    //     return payment.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+    //   }      
+    // );
 
 
 
@@ -87,7 +113,8 @@ class Pagamentos extends Component {
             nextText='Proxima'
             previousText='Anterior'
             rowsText='linhas'
-            data={filteredPayments}
+            // data={filteredPayments}
+            data={this.state.pagamentos}
 
             columns={[
               {
@@ -123,7 +150,11 @@ class Pagamentos extends Component {
                 columns: [
                   {
                     Header: "Vencimento",
-                    accessor: "created_at"
+                    accessor: "due_date",
+                    Cell: row => (
+                      <span>
+                        {row.value.split('-').reverse().join('/')}
+                      </span>)
                   },
                   {
                     Header: "Status",
@@ -139,6 +170,18 @@ class Pagamentos extends Component {
                         row.value === true ? 'Vencido': 'A vencer'
                       }
                     </span>)
+                  },
+                  {
+                    Header: "Ação",
+                    id: "acao",
+                    accessor: "status",
+                    Cell: row => (
+                      <span>{
+                        row.value === true ? 
+                        <Button variant="outlined" color="primary" type="submit">Cancelar</Button>
+                        : <Button variant="outlined" color="secondary" type="submit">Quitar</Button>
+                      }</span>
+                    )
                   }
                 ]
               }
