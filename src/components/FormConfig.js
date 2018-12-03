@@ -24,13 +24,13 @@ export default class Menu extends React.Component {
   
   componentDidMount() {
     $.ajax({
-      url: ``,
+      url: 'http://ema-api.herokuapp.com/api/setting',
       crossDomain: true,
       dataType: 'json',
       success: function(response){
         console.log('resultado', response);
-        this.setState({ duracao: response.duracao });
-        this.setState({ reajuste: response.reajuste});
+        this.setState({ duracao: response.duration/3600 });
+        this.setState({ reajuste: response.readjust });
       }.bind(this),
       error: function(resultado) {
         console.log("deu ruim: ", resultado);
@@ -59,13 +59,13 @@ export default class Menu extends React.Component {
     console.log(this.state)
     console.log("dados sendo enviados");
     $.ajax({
-      url:``,
+      url: 'http://ema-api.herokuapp.com/api/setting',
       contentType: 'application/json',
       dataType:'json',
       type:'put',
       data:JSON.stringify({
-        name: this.state.duracao, 
-        email: this.state.reajuste, 
+        duration: this.state.duracao*3600, 
+        readjust: this.state.reajuste, 
       }),
       success: function(response){
         console.log(response);
