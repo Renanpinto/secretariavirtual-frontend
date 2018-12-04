@@ -53,13 +53,14 @@ class Relatorios extends Component {
 
 
         this.state.customers.forEach( customers => {
-            customers.status = customers.status === true ? "Ativo" : "InaTivo";
+           //TODO -- da conflito com o status do payments, se deixar os 2 um nao pega
+            customers.status = customers.status === true ? "Ativo" : "Inativo";
 
             //TODO -- CRASHA O RESTO DAS DATAS
             // customers.created_at = moment(customers.created_at).format("DD/MM/YYYY");
         });
         
-        this.state.appointments.forEach( appointments => {
+        this.state.appointments.forEach( (appointments) => {
             // if(appointments.start_time) {
             //     appointments.start_time = moment(appointments.start_time).format("DD/MM/YYYY");
             // }
@@ -72,9 +73,9 @@ class Relatorios extends Component {
             // }                                                                                                                                                                                                                                          
         })
 
-        this.state.payments.forEach( (payments) => {
-            
-            payments.status = payments.status === true ? "Pago" : "Em Aberto"
+        this.state.payments.forEach( payments => {
+           //TODO -- da conflito com o status do costumers, se deixar os 2 um nao pega
+            // payments.status = payments.status === true ? "Pago" : "Em Aberto"
 
         })
         
