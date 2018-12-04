@@ -72,7 +72,7 @@ class Pagamentos extends Component {
     //   }
     // );
 
-    // console.log("filteredPayments", filteredPayments)
+    console.log("filteredPayments", this.state.pagamentos)
 
     // const filteredPayments = [{
     //   id: 1,
@@ -122,11 +122,11 @@ class Pagamentos extends Component {
                 columns: [
                   {
                     Header: "Nome",
-                    accessor: "name"
+                    accessor: "customer.name"
                   },
                   {
                     Header: "E-Mail",
-                    accessor: "email"
+                    accessor: "customer.email"
                   }
                 ]
               },
