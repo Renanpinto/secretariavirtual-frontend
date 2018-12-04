@@ -12,25 +12,12 @@ class Pagamentos extends Component {
   constructor() {
     super();
     this.state = {
-      lista: [],
       pagamentos: [],
       search: ''
     };
   }
 
   componentDidMount() {
-
-    $.ajax({
-      url: 'http://ema-api.herokuapp.com/api/customers',
-      crossDomain: true,
-      dataType: 'json',
-      success: function (resultado) {
-        this.setState({ lista: resultado })
-      }.bind(this),
-      error: function (resultado) {
-        console.log("deu ruim: ", resultado);
-      }     
-    });
 
     $.ajax({
       url: 'http://ema-api.herokuapp.com/api/invoices',
@@ -53,53 +40,19 @@ class Pagamentos extends Component {
     this.setState({ search: event.substr(0, 20) })
   }
 
-  formatarData(data) {
-    var d = new Date(data),
-        mes = '' + (d.getMonth() + 1),
-        dia = '' + d.getDate(),
-        ano = d.getFullYear();
-
-    if (mes.length < 2) mes = '0' + mes;
-    if (dia.length < 2) dia = '0' + dia;
-
-    return [dia, mes, ano].join('/');
-}
 
   render() {
-    // let filteredPayments = this.state.lista.filter(
-    //   (paciente) => {
-    //     return paciente.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
-    //   }
-    // );
-
-    console.log("filteredPayments", this.state.pagamentos)
-
-    // const filteredPayments = [{
-    //   id: 1,
-    //   name: "Cliente A",
-    //   email: "cliente_a@email.com",
-    //   appointments: "4",
-    //   value: "440,00",
-    //   status: false,
-    //   created_at: "20/10/2018"
-    // }]
-    
-    // let filteredPayments = this.state.pagamentos.filter(
-    //   (payment) =>{
-    //     //TODO quando apontar para api de pagamentos, ver por qual atribuito sera feita a busca
-    //     return payment.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
-    //   }      
-    // );
-
-
+    let filteredPayments = this.state.pagamentos.filter(
+      (payment) => {
+        return payment.customer.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+      }
+    );
 
     return (
 
       <main className="content-wrap">
 
         <header className="content-head">
-
-
 
           <h1>Pagamentos a receber</h1>
 
@@ -113,8 +66,7 @@ class Pagamentos extends Component {
             nextText='Proxima'
             previousText='Anterior'
             rowsText='linhas'
-            // data={filteredPayments}
-            data={this.state.pagamentos}
+            data={filteredPayments}
 
             columns={[
               {
