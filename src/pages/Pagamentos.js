@@ -15,7 +15,6 @@ class Pagamentos extends Component {
       pagamentos: [],
       search: '',
     };
-    this.getCurrentESDate=this.getCurrentESDate.bind(this);
   }
 
   componentDidMount() {
@@ -26,6 +25,7 @@ class Pagamentos extends Component {
       dataType: 'json',
       success: function (resultado) {
         this.setState({ pagamentos: resultado })
+        console.log("result" ,resultado)
       }.bind(this),
       error: function (resultado) {
         console.log("deu ruim: ", resultado);
@@ -45,7 +45,7 @@ class Pagamentos extends Component {
     let today = new Date();
     let dd = today.getDate();
     let mm = today.getMonth() + 1;
-    const yyyy = today.getFullYear();
+    let yyyy = today.getFullYear();
 
     if (dd < 10) {
       dd = '0' + dd;
@@ -56,11 +56,15 @@ class Pagamentos extends Component {
     return dd + '/' + mm + '/' + yyyy;
   }
 
-  getCurrentESDate() {
+  
+
+  quitarFatura(event) {
+    console.log('quitar ',event.currentTarget.id);
+    console.log(event.currentTarget.id);
     let today = new Date();
     let dd = today.getDate();
     let mm = today.getMonth() + 1;
-    const yyyy = today.getFullYear();
+    let yyyy = today.getFullYear();
 
     if (dd < 10) {
       dd = '0' + dd;
@@ -68,13 +72,9 @@ class Pagamentos extends Component {
     if (mm < 10) {
       mm = '0' + mm;
     } 
-    return yyyy + '-' + mm + '-' + dd ;
-  }
 
-  quitarFatura(event) {
-    console.log('quitar ',event.currentTarget.id);
-    console.log(event.currentTarget.id);
-    const date = this.getCurrentESDate();
+    const data = yyyy + '-' + mm + '-' + dd
+    
   $.ajax({
     url: 'http://ema-api.herokuapp.com/api/invoice',
     crossDomain: true,
@@ -82,8 +82,8 @@ class Pagamentos extends Component {
     dataType: 'json',
     method: 'put',
     data: JSON.stringify({
-      appointment_id: event.currentTarget.id,
-      payment: date,
+      id: event.currentTarget.id,
+      payment: data ,
     }),
     success: function (resultado) {
       console.log('resultado ', resultado)
@@ -94,6 +94,7 @@ class Pagamentos extends Component {
     }     
   });
   }
+
   estornarFatura(event) {
     console.log('estornar', event.currentTarget.id)
   }
@@ -187,8 +188,8 @@ class Pagamentos extends Component {
                     Cell: row => (
                       <span>
                         {row.value === true ? 
-                        <Button variant="outlined" color="primary" id={row.original.customer.id} onClick={this.estornarFatura}>Estornar</Button>
-                        : <Button variant="outlined" color="secondary" id={row.original.customer.id} onClick={this.quitarFatura}>Quitar</Button>
+                        <Button variant="outlined" color="primary" id={row.original.appointment_id} onClick={this.estornarFatura}>Estornar</Button>
+                        : <Button variant="outlined" color="secondary" id={row.original.appointment_id} onClick={this.quitarFatura}>Quitar</Button>
                       }</span>
                     )
                   }
