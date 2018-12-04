@@ -71,7 +71,7 @@ class Relatorios extends Component {
                 appointment.start_time = moment(appointment.start_time).format("DD/MM/YYYY");
             }
             if(appointment.end_time){
-                appointment.end_time = moment(appointment.end_time).format("DD/MM/YYYY");   
+                // appointment.end_time = moment(appointment.end_time).format("DD/MM/YYYY");   
             }                         
             // if(appointment.status) {
             //     //TODO -- true = ??

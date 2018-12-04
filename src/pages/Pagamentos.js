@@ -14,7 +14,7 @@ class Pagamentos extends Component {
     this.state = {
       lista: [],
       pagamentos: [],
-      search: ''
+      search: '',
     };
   }
 
