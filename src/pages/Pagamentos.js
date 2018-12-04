@@ -15,6 +15,7 @@ class Pagamentos extends Component {
       pagamentos: [],
       search: '',
     };
+    this.getCurrentESDate=this.getCurrentESDate.bind(this);
   }
 
   componentDidMount() {
@@ -40,6 +41,62 @@ class Pagamentos extends Component {
     this.setState({ search: event.substr(0, 20) })
   }
 
+  getCurrentDate() {
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1;
+    const yyyy = today.getFullYear();
+
+    if (dd < 10) {
+      dd = '0' + dd;
+    } 
+    if (mm < 10) {
+      mm = '0' + mm;
+    } 
+    return dd + '/' + mm + '/' + yyyy;
+  }
+
+  getCurrentESDate() {
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1;
+    const yyyy = today.getFullYear();
+
+    if (dd < 10) {
+      dd = '0' + dd;
+    } 
+    if (mm < 10) {
+      mm = '0' + mm;
+    } 
+    return yyyy + '-' + mm + '-' + dd ;
+  }
+
+  quitarFatura(event) {
+    console.log('quitar ',event.currentTarget.id);
+    console.log(event.currentTarget.id);
+    const date = this.getCurrentESDate();
+  $.ajax({
+    url: 'http://ema-api.herokuapp.com/api/invoice',
+    crossDomain: true,
+    contentType: 'application/json',
+    dataType: 'json',
+    method: 'put',
+    data: JSON.stringify({
+      appointment_id: event.currentTarget.id,
+      payment: date,
+    }),
+    success: function (resultado) {
+      console.log('resultado ', resultado)
+      // this.setState({ lista: resultado })
+    }.bind(this),
+    error: function (resultado) {
+      console.log("deu ruim: ", resultado);
+    }     
+  });
+  }
+  estornarFatura(event) {
+    console.log('estornar', event.currentTarget.id)
+  }
 
   render() {
     let filteredPayments = this.state.pagamentos.filter(
@@ -115,11 +172,11 @@ class Pagamentos extends Component {
                     Cell: row => (
                     <span>
                       <span style={{
-                        color: row.value === true ? '#ff2e00' : '#57d500',
+                        color: row.original.due_date < this.getCurrentDate() ? '#ff2e00' : '#57d500',
                       }}>
                         &#x25cf;
                       </span> {
-                        row.value === true ? 'Vencido': 'A vencer'
+                        row.original.due_date < this.getCurrentDate() ? 'Vencido': 'A vencer'
                       }
                     </span>)
                   },
@@ -128,10 +185,10 @@ class Pagamentos extends Component {
                     id: "acao",
                     accessor: "status",
                     Cell: row => (
-                      <span>{
-                        row.value === true ? 
-                        <Button variant="outlined" color="primary" type="submit">Cancelar</Button>
-                        : <Button variant="outlined" color="secondary" type="submit">Quitar</Button>
+                      <span>
+                        {row.value === true ? 
+                        <Button variant="outlined" color="primary" id={row.original.customer.id} onClick={this.estornarFatura}>Estornar</Button>
+                        : <Button variant="outlined" color="secondary" id={row.original.customer.id} onClick={this.quitarFatura}>Quitar</Button>
                       }</span>
                     )
                   }
