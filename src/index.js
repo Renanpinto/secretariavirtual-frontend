@@ -11,6 +11,7 @@ import Home from './pages/Home';
 import Pacientes from './pages/Pacientes';
 import Pagamentos from './pages/Pagamentos';
 import Consultas from './pages/Consultas';
+import Relatorios from './pages/Relatorios';
 
 function verificaAutenticacao(nextState,replace) {
   console.log(localStorage.getItem('auth-token'))
@@ -31,6 +32,7 @@ ReactDOM.render(
         <Route exact path="/home" render={() => (verificaAutenticacao() ? (<Home />) : (<Redirect to="/login"/>))}/>
         <Route exact path="/pacientes" render={() => (verificaAutenticacao() ? (<Pacientes />) : (<Redirect to="/login"/>))}/> 
         <Route exact path="/app" component={App} />
+        <Route exact path="/relatorios" render={() => (verificaAutenticacao() ? (<Relatorios />) : (<Redirect to="/login"/>))}/>
         <Route exact path="/pagamentos" render={() => (verificaAutenticacao() ? (<Pagamentos />) : (<Redirect to="/login"/>))}/>
         <Route exact path="/consultas" render={() => (verificaAutenticacao() ? (<Consultas />) : (<Redirect to="/login"/>))}/>
         <Route exact path="/logout" component={Logout}/>
