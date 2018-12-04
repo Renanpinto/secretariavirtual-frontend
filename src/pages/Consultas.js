@@ -80,7 +80,28 @@ class Consultas extends Component {
     if (dia.length < 2) dia = '0' + dia;
 
     return [dia, mes, ano].join('/');
-}
+  }
+
+  atenderConsulta(event){
+  console.log(event.currentTarget.id);
+  $.ajax({
+    url: 'http://ema-api.herokuapp.com/api/invoices',
+    crossDomain: true,
+    contentType: 'application/json',
+    dataType: 'json',
+    method: 'post',
+    data: JSON.stringify({
+      appointment_id: event.currentTarget.id,
+    }),
+    success: function (resultado) {
+      console.log('resultado ', resultado)
+      // this.setState({ lista: resultado })
+    }.bind(this),
+    error: function (resultado) {
+      console.log("deu ruim: ", resultado);
+    }     
+  });
+  }
 
   render() {
     const { open } = this.state;
@@ -173,10 +194,11 @@ class Consultas extends Component {
                       accessor: "status",
                       Cell: row => (
                         <span>{
-                          row.value === true ? 
-                          <Button variant="outlined" color="primary" type="submit">Cancelar</Button>
-                          : <Button variant="outlined" color="secondary" type="submit">Atender</Button>
-                        }</span>
+                          row.original.status === true ? 
+                          <Button variant="outlined" color="primary" id={row.original.id} onClick={this.atenderConsulta}>Atender</Button>
+                          : <Button variant="outlined" color="secondary" id={row.original.id} onClick={this.atenderConsulta}>Cancelar</Button>
+                        }
+                        </span>
                       )
                     }
                   ]
