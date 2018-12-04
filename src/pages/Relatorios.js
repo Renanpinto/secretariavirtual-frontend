@@ -6,42 +6,15 @@ import moment from 'moment';
 class Relatorios extends Component {
     constructor() {
         super();
-        this.relatorio = {
-            customers: [],
-            appointments: [],
-            payments: [],
-        };
         this.state = {
             customers: [],
             appointments: [],
             payments: [],
         };
+      
     }
 
     componentDidMount() {
-        $.ajax({
-            url: 'http://ema-api.herokuapp.com/api/customers',
-            crossDomain: true,
-            dataType: 'json',
-            success: function (resultado) {
-                console.log(" Customers ", resultado)
-                this.setState({ customers: resultado })
-                this.relatorio.customers.push(resultado);
-            }.bind(this),
-            error: function (resultado) {
-                console.log("deu ruim: ", resultado);
-            }
-        });
-
-        $.ajax({
-            url: 'http://ema-api.herokuapp.com/api/appointments',
-            crossDomain: true,
-            dataType: 'json',
-            success: function (resultado) {
-                console.log(" APPOINTMENTS ", resultado)
-                this.setState({ appointments: resultado });
-            }.bind(this)
-        });
 
         $.ajax({
             url: 'http://ema-api.herokuapp.com/api/invoices',
@@ -49,43 +22,58 @@ class Relatorios extends Component {
             dataType: 'json',
             success: function (resultado) {
                 console.log(" Faturas ", resultado)
-                this.setState({ payments: resultado });
+                resultado.forEach(payment => {
+                    //TODO -- da conflito com o status do costumers, se deixar os 2 um nao pega
+                    payment.status = payment.status === true ? "Pago" : "Em Aberto"
+                });
+                this.setState({ payments: resultado })
             }.bind(this)
+        });
+
+
+        $.ajax({
+            url: 'http://ema-api.herokuapp.com/api/appointments',
+            crossDomain: true,
+            dataType: 'json',
+            success: function (resultado) {
+                resultado.forEach((appointment) => {
+                    if (appointment.start_time) {
+                        appointment.start_time = moment(appointment.start_time).format("DD/MM/YYYY");
+                    }
+                    if (appointment.end_time) {
+                        appointment.end_time = moment(appointment.end_time).format("DD/MM/YYYY");
+                    }
+                    // if(appointment.status) {
+                    //     //TODO -- true = ??
+                    //     appointment.status = appointment.status === true ? "...": "..."
+                    // }                                                                                                                                                                                                                                          
+                })
+                this.setState({ appointments: resultado })
+            }.bind(this)
+        })
+
+
+        $.ajax({
+            url: 'http://ema-api.herokuapp.com/api/customers',
+            crossDomain: true,
+            dataType: 'json',
+            success: function (resultado) {
+                resultado.forEach(customer => {
+                    //TODO -- da conflito com o status do payments, se deixar os 2 um nao pega
+                    customer.status = customer.status === true ? "Ativo" : "Inativo";
+                    //TODO -- CRASHA O RESTO DAS DATAS
+                    customer.created_at = moment(customer.created_at).format("DD/MM/YYYY");
+                });
+                this.setState({ customers: resultado })
+            }.bind(this),
+            error: function (resultado) {
+                console.log("deu ruim: ", resultado);
+            }
         });
     }
 
-    
     render() {
-        
-        // if(this.relatorio.customers.length>0) {
-        //     console.log('asdas', this.relatorio)
 
-        this.state.customers.forEach(customer => {
-           customer.status === true ? customer.status = "Ativo" : customer.status = "Inativo";
-
-           customer.created_at = moment(customer.created_at).format("DD/MM/YYYY");
-        });
-        
-        this.state.appointments.forEach( (appointment) => {
-            if(appointment.start_time) {
-                appointment.start_time = moment(appointment.start_time).format("DD/MM/YYYY");
-            }
-            if(appointment.end_time){
-                // appointment.end_time = moment(appointment.end_time).format("DD/MM/YYYY");   
-            }                         
-            // if(appointment.status) {
-            //     //TODO -- true = ??
-            //     appointment.status = appointment.status === true ? "...": "..."
-            // }                                                                                                                                                                                                                                          
-        })
-
-        this.state.payments.forEach( payment => {
-            payment.status === true ? payment.status = "Pago" : payment.status = "Em Aberto"
-
-        })
-        console.log('relatorio ', this.state)
-    // }
-        
         let headersCustomers = [
             { label: "Id", key: "id" },
             { label: "Nome", key: "name" },
@@ -108,9 +96,9 @@ class Relatorios extends Component {
             { label: "Id", key: "id" },
             { label: "Competencia", key: "competence" },
             { label: "Valor", key: "value" },
-            { label: "Data de Vencimento", key: "due_date"},
-            { label: "Data de Pagamento", key: "payment"},
-            { label: "Status (true= Pago / false= Em aberto", key: "status"}
+            { label: "Data de Vencimento", key: "due_date" },
+            { label: "Data de Pagamento", key: "payment" },
+            { label: "Status", key: "status" }
         ];
 
         return (
