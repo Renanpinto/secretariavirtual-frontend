@@ -87,8 +87,7 @@ class Pagamentos extends Component {
     }),
     success: function (resultado) {
       console.log('resultado ', resultado)
-      // this.setState({ lista: resultado })
-    }.bind(this),
+    },
     error: function (resultado) {
       console.log("deu ruim: ", resultado);
     }     
