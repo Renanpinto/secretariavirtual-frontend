@@ -53,14 +53,11 @@ class Pagamentos extends Component {
     if (mm < 10) {
       mm = '0' + mm;
     } 
-    return dd + '/' + mm + '/' + yyyy;
+    return yyyy + '-' + mm + '-' + dd;
   }
+ 
 
-  
-
-  quitarFatura(event) {
-    console.log('quitar ',event.currentTarget.id);
-    console.log(event.currentTarget.id);
+  quitarExtornarFatura(event) {
     let today = new Date();
     let dd = today.getDate();
     let mm = today.getMonth() + 1;
@@ -71,8 +68,7 @@ class Pagamentos extends Component {
     } 
     if (mm < 10) {
       mm = '0' + mm;
-    } 
-
+    }    
     const data = yyyy + '-' + mm + '-' + dd
     
   $.ajax({
@@ -87,16 +83,13 @@ class Pagamentos extends Component {
     }),
     success: function (resultado) {
       console.log('resultado ', resultado)
-      // this.setState({ lista: resultado })
-    }.bind(this),
+      //this.forceUpdate()
+    },
     error: function (resultado) {
       console.log("deu ruim: ", resultado);
     }     
   });
-  }
-
-  estornarFatura(event) {
-    console.log('estornar', event.currentTarget.id)
+  
   }
 
   render() {
@@ -118,6 +111,7 @@ class Pagamentos extends Component {
         <br></br>
 
         <div id="tabela-pagamentos">
+     
           <ReactTable
             pageText='Pagina'
             ofText='de'
@@ -173,6 +167,7 @@ class Pagamentos extends Component {
                     Cell: row => (
                     <span>
                       <span style={{
+                        
                         color: row.original.due_date < this.getCurrentDate() ? '#ff2e00' : '#57d500',
                       }}>
                         &#x25cf;
@@ -188,8 +183,8 @@ class Pagamentos extends Component {
                     Cell: row => (
                       <span>
                         {row.value === true ? 
-                        <Button variant="outlined" color="primary" id={row.original.appointment_id} onClick={this.estornarFatura}>Estornar</Button>
-                        : <Button variant="outlined" color="secondary" id={row.original.appointment_id} onClick={this.quitarFatura}>Quitar</Button>
+                        <Button variant="outlined" color="primary" id={row.original.appointment_id} onClick={this.quitarExtornarFatura}>Estornar</Button>
+                        : <Button variant="outlined" color="secondary" id={row.original.appointment_id} onClick={this.quitarExtornarFatura}>Quitar</Button>
                       }</span>
                     )
                   }
