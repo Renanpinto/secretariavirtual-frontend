@@ -107,11 +107,14 @@ class Consultas extends Component {
   cancelarConsulta(event){
     console.log(event.currentTarget.id);
     $.ajax({
-      url: `http://ema-api.herokuapp.com/api/appointments/${event.currentTarget.id}` ,
+      url: `http://ema-api.herokuapp.com/api/appointment` ,
       crossDomain: true,
       contentType: 'application/json',
       dataType: 'json',
       method: 'delete',
+      data: JSON.stringify({
+        id: event.currentTarget.id,
+      }),
       success: function (resultado) {
         console.log('resultado ', resultado)
         // this.setState({ lista: resultado })
