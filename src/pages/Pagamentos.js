@@ -83,7 +83,6 @@ class Pagamentos extends Component {
     }),
     success: function (resultado) {
       console.log('resultado ', resultado)
-      //this.forceUpdate()
     },
     error: function (resultado) {
       console.log("deu ruim: ", resultado);

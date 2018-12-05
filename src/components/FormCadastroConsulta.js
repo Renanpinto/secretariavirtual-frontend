@@ -127,7 +127,7 @@ export default class Menu extends React.Component {
           {
             this.state.lista.map((paciente, i) => ( 
               <MenuItem key = { i } value = { paciente.id }>
-               {paciente.name} 
+               {paciente.customer} 
               </MenuItem>
               ))
           } 

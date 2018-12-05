@@ -21,6 +21,7 @@ class Consultas extends Component {
       search: '',
       isHidden: true,
       open: false,
+      pacienteId: '',
     };
     this.onOpenModal=this.onOpenModal.bind(this);
     this.onCloseModal=this.onCloseModal.bind(this);
@@ -53,8 +54,8 @@ class Consultas extends Component {
       }.bind(this));
   }
 
-  onOpenModal() {
-    this.setState({ open: true });
+  onOpenModal(event) {
+    this.setState({ open: true, pacienteId: event.target.id });
   }
 
   onCloseModal() {
@@ -96,12 +97,33 @@ class Consultas extends Component {
     success: function (resultado) {
       console.log('resultado ', resultado)
       // this.setState({ lista: resultado })
-    }.bind(this),
+    },
     error: function (resultado) {
       console.log("deu ruim: ", resultado);
     }     
   });
   }
+
+  cancelarConsulta(event){
+    console.log(event.currentTarget.id);
+    $.ajax({
+      url: `http://ema-api.herokuapp.com/api/appointment` ,
+      crossDomain: true,
+      contentType: 'application/json',
+      dataType: 'json',
+      method: 'delete',
+      data: JSON.stringify({
+        id: event.currentTarget.id,
+      }),
+      success: function (resultado) {
+        console.log('resultado ', resultado)
+        // this.setState({ lista: resultado })
+      },
+      error: function (resultado) {
+        console.log("deu ruim: ", resultado);
+      }     
+    });
+    }
 
   render() {
     const { open } = this.state;
@@ -131,7 +153,7 @@ class Consultas extends Component {
           }}
           animationDuration={500}>
             <div>
-                <FormEdicaoConsulta/>
+                <FormEdicaoConsulta id={this.state.pacienteId}/>
             </div>
         </Modal>
         <header className="content-head">
@@ -143,7 +165,7 @@ class Consultas extends Component {
           </div>
         </header>
 
-        <div className="content">
+        <div className="appointments-content">
          {formularioConsulta}
           <div id="tabela-pagamentos">
             <ReactTable
@@ -162,7 +184,7 @@ class Consultas extends Component {
                       Header: "Nome",
                       accessor: "customer",
                       Cell: row => (
-                        <span onClick={this.onOpenModal}>
+                        <span id={row.original.id} onClick={this.onOpenModal}>
                           {row.value}
                         </span>)
                     }
@@ -185,7 +207,7 @@ class Consultas extends Component {
                       accessor: "start_time",
                       Cell: row => (
                         <span>
-                          {row.value.split('T')}
+                          {row.value.split('T')[1].split('.',1)}
                         </span>)
                     },
                     {
@@ -196,7 +218,7 @@ class Consultas extends Component {
                         <span>{
                           row.original.status === true ? 
                           <Button variant="outlined" color="primary" id={row.original.id} onClick={this.atenderConsulta}>Atender</Button>
-                          : <Button variant="outlined" color="secondary" id={row.original.id} onClick={this.atenderConsulta}>Cancelar</Button>
+                          : <Button variant="outlined" color="secondary" id={row.original.id} onClick={this.cancelarConsulta}>Cancelar</Button>
                         }
                         </span>
                       )

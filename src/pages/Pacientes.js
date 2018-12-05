@@ -44,9 +44,12 @@ class Pacientes extends Component {
     });
     PubSub.subscribe('atualiza-lista', function(topico, data) {
       this.state.lista.push(data);
+      console.log('data', data)
+      console.log('lista1', this.state.lista)
 
       const retorno = Object.assign(this.state.lista, data);
       this.setState({lista: retorno});
+      console.log('lista2', this.state.lista)
     }.bind(this));
 
     PubSub.subscribe('atualiza-busca', function(topico,data) {
@@ -58,9 +61,7 @@ class Pacientes extends Component {
 
 
   onOpenModal(event) {
-    console.log('event', event.target)
-    this.setState({ open: true , pacienteId: event.target.id});
-    
+    this.setState({ open: true , pacienteId: event.target.id });
   }
 
   onCloseModal() {
@@ -128,7 +129,7 @@ class Pacientes extends Component {
               
               {formularioPaciente}
          
-              <div className="example">
+              <div>
                 <Modal
                   open={open}
                   onClose={this.onCloseModal}
@@ -141,7 +142,6 @@ class Pacientes extends Component {
                   }}
                   animationDuration={500}>
                 <div>
-                  {console.log('pacienteid', this.state.pacienteId)}
                   <FormEdicaoPaciente id={this.state.pacienteId}/>
                 </div>
                 </Modal>

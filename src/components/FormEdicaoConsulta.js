@@ -12,12 +12,14 @@ import MomentUtils from 'material-ui-pickers/utils/moment-utils';
 import { InlineDateTimePicker } from 'material-ui-pickers/DateTimePicker';
 
 export default class Menu extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
+    this.props = props;
     this.state = {
       lista: [],
       selectedDate: new Date(),
-      selectedPaciente: '',
+      name: '',
+      customerId: '',
       open: false,
     };
     this.enviaForm = this.enviaForm.bind(this);
@@ -30,18 +32,33 @@ export default class Menu extends React.Component {
   
   componentDidMount() {
     $.ajax({
-      url: ``,
+      url: `http://ema-api.herokuapp.com/api/appointments/${this.props.id}`,
       crossDomain: true,
       dataType: 'json',
       success: function(response){
         console.log('resultado', response);
-        this.setState({ selectedDate: response.duracao });
-        this.setState({ selectedPaciente: response.reajuste});
+        this.setState({ customerId: response.customer_id });
+        this.setState({ name: response.customer});
+        this.setState({ selectedDate: response.start_time });
+        console.log( 'api', this.state)
       }.bind(this),
       error: function(resultado) {
         console.log("deu ruim: ", resultado);
       }
       
+    });
+
+    $.ajax({
+      url: 'http://ema-api.herokuapp.com/api/customers',
+      crossDomain: true,
+      dataType: 'json',
+      success: function (resultado) {
+        console.log('resultado ', resultado)
+        this.setState({ lista: resultado })
+      }.bind(this),
+      error: function (resultado) {
+        console.log("deu ruim: ", resultado);
+      }     
     });
   }
 
@@ -57,23 +74,27 @@ export default class Menu extends React.Component {
   }
 
   handlePacienteChange(event) {
-    this.setState({ selectedPaciente: event.target.value })
+    this.setState({ name: event.target.value })
   }
 
   enviaForm(event) {
     event.preventDefault();
-    console.log(this.state)
+    
     console.log("dados sendo enviados");
     $.ajax({
-      url:``,
+      url:`http://ema-api.herokuapp.com/api/appointments/${this.props.id}`,
       contentType: 'application/json',
       dataType:'json',
       type:'put',
       data:JSON.stringify({
-        name: this.state.duracao, 
-        email: this.state.reajuste, 
+        customer_id: this.state.customerId,
+        start_time: this.state.selectedDate, 
       }),
       success: function(response){
+        console.log(JSON.stringify({
+          customer_id: this.state.customerId,
+          start_time: this.state.selectedDate, 
+        }))
         console.log(response);
         console.log("enviado com sucesso");
         this.setState({ open: true })
@@ -83,11 +104,12 @@ export default class Menu extends React.Component {
       }
     },
   );
+  console.log(this.state)
 }
 
 
     render() {
-      const { selectedDate, selectedPaciente } = this.state;
+      const { selectedDate, customerId } = this.state;
         return (
           <section className='form-box-config'>
           
@@ -95,7 +117,7 @@ export default class Menu extends React.Component {
            <h2>Configuração</h2>
            <InputLabel htmlFor="paciente" className="td-consulta">Paciente</InputLabel>
         <Select
-            value={selectedPaciente}
+            value={customerId}
             onChange={this.handlePacienteChange}
             inputProps={{ id: 'paciente' }}
             className="td-consulta"
