@@ -17,7 +17,7 @@ class Consultas extends Component {
     super();
     this.state = {
       lista: [],
-      pagamentos: [],
+      appointments: [],
       search: '',
       isHidden: true,
       open: false,
@@ -36,6 +36,7 @@ class Consultas extends Component {
       success: function (resultado) {
         console.log('resultado ', resultado)
         this.setState({ lista: resultado })
+        this.setState({ appointments: resultado })
       }.bind(this),
       error: function (resultado) {
         console.log("deu ruim: ", resultado);
@@ -83,6 +84,22 @@ class Consultas extends Component {
     return [dia, mes, ano].join('/');
   }
 
+  toggleAppointments(event) {
+
+    if(event.target.checked) {
+     this.setState({ lista: this.state.lista.filter(
+       appointment => {    
+           return appointment.start_time >= this.getCurrentDate()
+       })}) 
+       
+    }else {
+     this.setState({ lista: this.state.appointments.filter(
+       appointment => {    
+           return appointment
+       })})
+    }
+   }
+
   atenderConsulta(event){
   console.log(event.currentTarget.id);
   $.ajax({
@@ -102,6 +119,21 @@ class Consultas extends Component {
       console.log("deu ruim: ", resultado);
     }     
   });
+  }
+
+  getCurrentDate() {
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1;
+    let yyyy = today.getFullYear();
+
+    if (dd < 10) {
+      dd = '0' + dd;
+    }
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+    return yyyy + '-' + mm + '-' + dd;
   }
 
   cancelarConsulta(event){
@@ -133,9 +165,9 @@ class Consultas extends Component {
       formularioConsulta = <FormCadastroConsulta/>
     }
     
-    let filteredPayments = this.state.lista.filter(
-      (payment) =>{
-        return payment.customer.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+    let filteredAppointments = this.state.lista.filter(
+      (appointment) =>{
+        return appointment.customer.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
       }      
     );
 
@@ -174,7 +206,7 @@ class Consultas extends Component {
               nextText='Proxima'
               previousText='Anterior'
               rowsText='linhas'
-              data={filteredPayments}
+              data={filteredAppointments}
 
               columns={[
                 {
@@ -228,6 +260,9 @@ class Consultas extends Component {
               ]}
             defaultPageSize={10}
             className="-striped -highlight"/>
+          </div>
+          <div>
+            <input type="checkbox"  onChange={this.toggleAppointments.bind(this)} />Exibir somente a partir da data de Hoje
           </div>
         </div>
       </main>

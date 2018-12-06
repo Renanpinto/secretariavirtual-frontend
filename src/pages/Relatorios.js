@@ -43,10 +43,9 @@ class Relatorios extends Component {
                     if (appointment.end_time) {
                         appointment.end_time = moment(appointment.end_time).format("DD/MM/YYYY");
                     }
-                    // if(appointment.status) {
-                    //     //TODO -- true = ??
-                    //     appointment.status = appointment.status === true ? "...": "..."
-                    // }                                                                                                                                                                                                                                          
+                    if(appointment.status) {
+                        appointment.status = appointment.status === true ? "Efetuada"  :"Não Efetuada";
+                    }                                                                                                                                                                                                                                          
                 })
                 this.setState({ appointments: resultado })
             }.bind(this)
@@ -89,7 +88,7 @@ class Relatorios extends Component {
             { label: "Data de Inicio", key: "start_time" },
             { label: "Data de Encerramento", key: "end_time" },
             { label: "Preço", key: "price" },
-            { label: "Status", key: "status" },
+            { label: "Status da Consulta", key: "status" },
         ];
 
         let headersPayments = [
