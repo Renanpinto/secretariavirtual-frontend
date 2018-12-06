@@ -106,7 +106,7 @@ export default class Menu extends React.Component {
       <section >
         <form className = "form-consulta" onSubmit = { this.enviaForm } method = "post" >
         <FormControl >
-        <InputLabel htmlFor="paciente" className="td-consulta">Paciente</InputLabel>
+        <InputLabel htmlFor="paciente" className="td-consulta">Clientes</InputLabel>
         <Select
             value={selectedPaciente}
             onChange={this.handlePacienteChange}
