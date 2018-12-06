@@ -134,8 +134,8 @@ export default class Menu extends React.Component {
         <MuiPickersUtilsProvider utils = { MomentUtils } >
         <InlineDateTimePicker keyboard label = "Data da consulta" value = { selectedDate }
         onChange = { this.handleDateChange }
-        format = "DD/MM/YYYY"
-        mask = { [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] } />
+        format = "DD/MM/YYYY HH:mm"
+        />
 
 
         </MuiPickersUtilsProvider> 

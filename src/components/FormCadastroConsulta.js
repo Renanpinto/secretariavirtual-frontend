@@ -27,17 +27,6 @@ export default class Menu extends React.Component {
     this.handlePacienteChange = this.handlePacienteChange.bind(this);
   }
 
-  // componentDidMount() {
-  //   PubSub.subscribe('lista-pacientes', function(topico, data) {
-  //     console.log('data', data);
-  //     this.state.lista.push(data);
-  //     console.log(this.state)
-  //     const retorno = Object.assign(this.state.lista, data);
-  //     this.setState({lista: retorno});
-  //   }.bind(this));
-  //   console.log('data', this.state);
-  // }
-      
   componentDidMount() {
     $.ajax({
       url: 'http://ema-api.herokuapp.com/api/customers',
@@ -127,7 +116,7 @@ export default class Menu extends React.Component {
           {
             this.state.lista.map((paciente, i) => ( 
               <MenuItem key = { i } value = { paciente.id }>
-               {paciente.customer} 
+               {paciente.name} 
               </MenuItem>
               ))
           } 
@@ -136,8 +125,8 @@ export default class Menu extends React.Component {
         <MuiPickersUtilsProvider utils = { MomentUtils } >
         <InlineDateTimePicker keyboard label = "Data da consulta" value = { selectedDate }
         onChange = { this.handleDateChange }
-        format = "DD/MM/YYYY"
-        mask = { [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/] } />
+        format = "DD/MM/YYYY HH:mm"
+        />
 
 
         </MuiPickersUtilsProvider> 
