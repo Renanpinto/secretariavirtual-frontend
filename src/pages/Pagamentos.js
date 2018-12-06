@@ -13,6 +13,7 @@ class Pagamentos extends Component {
     super();
     this.state = {
       pagamentos: [],
+      paymentsCheck: [],
       search: '',
     };
   }
@@ -25,6 +26,7 @@ class Pagamentos extends Component {
       dataType: 'json',
       success: function (resultado) {
         this.setState({ pagamentos: resultado })
+        this.setState({ paymentsCheck: resultado })
         console.log("result" ,resultado)
       }.bind(this),
       error: function (resultado) {
@@ -55,8 +57,23 @@ class Pagamentos extends Component {
     } 
     return yyyy + '-' + mm + '-' + dd;
   }
- 
 
+  toggleAppointments(event) {
+
+    if(event.target.checked) {
+     this.setState({ pagamentos: this.state.pagamentos.filter(
+       payments => {    
+           return payments.status === false
+       })}) 
+       
+    }else {
+     this.setState({ pagamentos: this.state.paymentsCheck.filter(
+       payments => {    
+           return payments
+       })})
+    }
+   }
+ 
   quitarExtornarFatura(event) {
     let today = new Date();
     let dd = today.getDate();
@@ -195,6 +212,9 @@ class Pagamentos extends Component {
           />
 
         </div>
+          <div>
+            <input type="checkbox" onChange={this.toggleAppointments.bind(this)} />Exibir somente faturas em aberto
+          </div>
 
       </main>
     );
