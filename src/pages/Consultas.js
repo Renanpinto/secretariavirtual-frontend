@@ -10,6 +10,7 @@ import 'react-table/react-table.css';
 import '../css/react-table.css';
 import '../css/pagamentos.css';
 import '../css/consulta.css';
+import Icon from '@material-ui/core/Icon';
 
 
 class Consultas extends Component {
@@ -142,7 +143,7 @@ class Consultas extends Component {
       crossDomain: true,
       contentType: 'application/json',
       dataType: 'json',
-      method: 'delete',
+      method: 'put',
       data: JSON.stringify({
         id: event.currentTarget.id,
       }),
@@ -157,6 +158,29 @@ class Consultas extends Component {
       }     
     });
     }
+
+    excluirConsulta(event){
+      console.log(event.currentTarget.id)
+      $.ajax({
+        url: `http://ema-api.herokuapp.com/api/appointment` ,
+        crossDomain: true,
+        contentType: 'application/json',
+        dataType: 'json',
+        method: 'delete',
+        data: JSON.stringify({
+          id: event.currentTarget.id,
+        }),
+        success: function (resultado, textStatus, xhr) {
+          console.log("status: ", xhr.status);
+          console.log('resultado ', resultado)
+          // this.setState({ lista: resultado })
+        },
+        error: function (resultado, xhr) {
+          console.log("status: ", xhr);
+          console.log("deu ruim: ", resultado);
+        }     
+      });
+      }
 
   render() {
     const { open } = this.state;
@@ -255,7 +279,20 @@ class Consultas extends Component {
                         }
                         </span>
                       )
-                    }
+                    },
+                    
+                  {
+                    Header: "Excluir",
+                    id: "acao",
+                    accessor: "status",
+                    Cell: row => (
+                      <button id={row.original.id} onClick={this.excluirConsulta}>
+                        <Icon color="error">
+                          highlight_off
+                        </Icon>
+                      </button>
+                    )
+                  }
                   ]
                 }
               ]}

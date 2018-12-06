@@ -6,6 +6,7 @@ import '../css/pagamentos.css';
 import $ from 'jquery';
 import PubSub from 'pubsub-js';
 import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
 
 
 class Pagamentos extends Component {
@@ -199,8 +200,22 @@ class Pagamentos extends Component {
                     Cell: row => (
                       <span>
                         {row.value === true ? 
+                        <div>
                         <Button variant="outlined" color="primary" id={row.original.appointment_id} onClick={this.quitarExtornarFatura}>Estornar</Button>
+                        </div>
                         : <Button variant="outlined" color="secondary" id={row.original.appointment_id} onClick={this.quitarExtornarFatura}>Quitar</Button>
+                      }</span>
+                    )
+                  },
+                  {
+                    Header: "asd",
+                    id: "acao",
+                    accessor: "status",
+                    Cell: row => (
+                      <span>
+                        <Icon color="primary">
+                          add_circle
+                        </Icon>
                       }</span>
                     )
                   }

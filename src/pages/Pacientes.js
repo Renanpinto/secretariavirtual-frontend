@@ -46,13 +46,19 @@ class Pacientes extends Component {
       
     });
     PubSub.subscribe('atualiza-lista', function(topico, data) {
-      this.state.lista.push(data);
-      console.log('data', data)
-      console.log('lista1', this.state.lista)
-
-      const retorno = Object.assign(this.state.lista, data);
-      this.setState({lista: retorno});
-      console.log('lista2', this.state.lista)
+      $.ajax({
+        url: 'http://ema-api.herokuapp.com/api/customers',
+        crossDomain: true,
+        dataType: 'json',
+        success: function(resultado){
+          console.log('resultado', resultado);
+          this.setState({lista: resultado})
+          this.filteredPacientes = this.state.lista;
+        }.bind(this),
+        error: function(resultado) {
+          console.log("deu ruim pacientes: ", resultado);
+        }
+      });
     }.bind(this));
 
     PubSub.subscribe('atualiza-busca', function(topico,data) {
