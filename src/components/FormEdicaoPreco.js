@@ -1,61 +1,50 @@
 import React from 'react';
 import $ from 'jquery';
-import PubSub from 'pubsub-js';
-import '../css/form-config.css';
+import '../css/form-config.css'
 import { TextField } from '@material-ui/core';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-
+import MomentUtils from 'material-ui-pickers/utils/moment-utils';
+import { InlineDateTimePicker } from 'material-ui-pickers/DateTimePicker';
+import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
 
 export default class Menu extends React.Component {
   constructor(props) {
     super();
-    this.props = props;
-    this.customer = []
+    this.props = props
     this.state = {
-      name: '',
-      email: '',
-      phone: '',
+      valor: '',
+      selectedDate: new Date(),
       open: false,
     };
     this.enviaForm = this.enviaForm.bind(this);
-    this.setName = this.setName.bind(this);
-    this.setEmail = this.setEmail.bind(this);
-    this.setPhone = this.setPhone.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleValueChange = this.handleValueChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
+    this.enviaForm = this.enviaForm;
     
   }
   
   componentDidMount() {
-    console.log(this.props.id)
+    const id = this.props.id
+    console.log('id', id)
     $.ajax({
-      url: `http://ema-api.herokuapp.com/api/customers/${this.props.id}`,
+      url: `http://ema-api.herokuapp.com/api/customers/${id}/prices`,
       crossDomain: true,
       dataType: 'json',
-      success: function(resultado){
-        console.log('resultado', resultado);
-        this.setState({ name: resultado.name });
-        this.setState({ email: resultado.email});
-        this.setState({ phone: resultado.phone});
+      success: function(response){
+        console.log('resultado', response);
+        if(response.length > 0) {
+          this.setState({ valor: response[0].price });
+          this.setState({ selectedDate: response[0].readjust });
+        }
       }.bind(this),
       error: function(resultado) {
         console.log("deu ruim: ", resultado);
       }
       
     });
-  }
-
-  setName(event){
-    this.setState({name:event.target.value});
-  }
-  
-  setEmail(event){
-    this.setState({email:event.target.value});
-  }
-  
-  setPhone(event){
-    this.setState({phone:event.target.value});
   }
 
   handleClose(event, reason) {
@@ -65,48 +54,63 @@ export default class Menu extends React.Component {
     this.setState({ open: false });
   }
 
+  handleValueChange(event) {
+    this.setState({ valor: event.currentTarget.value })
+  }
+
   enviaForm(event) {
     event.preventDefault();
+    const { id } = this.props
     console.log("dados sendo enviados");
     $.ajax({
-      url:`http://ema-api.herokuapp.com/api/customers/${this.props.id}`,
+      url: `http://ema-api.herokuapp.com/api/customers/${id}/prices`,
       contentType: 'application/json',
       dataType:'json',
-      type:'put',
+      type:'post',
       data:JSON.stringify({
-        name: this.state.name, 
-        email: this.state.email, 
-        phone: this.state.phone
+        price: this.state.valor, 
+        readjust: this.state.selectedDate, 
       }),
-      success: function(resposta){
-        console.log(resposta);
+      success: function(response){
+        console.log(response);
         console.log("enviado com sucesso");
-        const data = this.state;
-        PubSub.publish('atualiza-lista', data);
         this.setState({ open: true })
       }.bind(this),
       error: function(resposta){
           console.log("erro");
       }
-  })
+    },
+  );
+}
+
+handleDateChange(date) {
+  this.setState({
+    selectedDate: date,
+  });
 }
 
 
     render() {
+      const { selectedDate, valor } = this.state;
+      console.log(this.state.valor)
         return (
           <section className='form-box-config'>
+          
          <form className="form-config" onSubmit={this.enviaForm} method="put">
-           <h2>Edição de Cliente</h2>
-           <TextField id="nome" label="Nome" value={this.state.name} 
-           onChange={this.setName}
+           <h2>Preço</h2>
+           <TextField id="valor" label="Valor" value={valor} 
+            onChange={this.handleValueChange}
+            helperText="R$"
             type="text" margin="normal" />
-            <TextField id="email" label="Email" value={this.state.email} 
-           onChange={this.setEmail}
-            type="email" margin="normal" />
-            <TextField id="telefone" label="Telefone" value={this.state.phone} 
-           onChange={this.setPhone}
-            type="tel" margin="normal" />
-           <button type="submit" className="submit">Alterar</button>
+            <MuiPickersUtilsProvider utils = { MomentUtils } >
+            <InlineDateTimePicker keyboard label = "Data de reajuste" value = { selectedDate }
+              onChange = { this.handleDateChange }
+              format = "DD/MM/YYYY HH:mm"
+               />
+
+            </MuiPickersUtilsProvider> 
+          
+           <button type="submit" className="submit">Gravar</button>
          </form> 
          <Snackbar
           anchorOrigin={{

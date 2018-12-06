@@ -73,10 +73,6 @@ export default class Menu extends React.Component {
              <span>Telefone</span>
              <input type="tel" value={this.state.phone} onChange={this.setPhone}/>
            </label>
-           <label>
-             <span>Foto</span>
-             <input type="file" />
-           </label>
            <button type="submit" className="submit">Cadastrar</button>
          </form> 
      </section>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ReactTable from "react-table";
+import ReactTable from 'react-table';
 import $ from 'jquery';
 import PubSub from 'pubsub-js';
 import Button from '@material-ui/core/Button';
@@ -198,7 +198,7 @@ class Consultas extends Component {
                       accessor: "start_time",
                       Cell: row => (
                         <span>
-                          {row.value.split('T', 1)}
+                          {row.value.split('T', 1)[0].split('-').reverse().join('/')}
                         </span>)
                     },
                     {
