@@ -41,10 +41,7 @@ class Login extends React.Component {
           <input type="checkbox" name="remember" defaultChecked/>Lembrar <br/>
           <p id="restore-password" className="pointer">Esqueceu a senha?</p>
         </div>
-        <input type="submit" name="submit" value="login" className="submit"/>
-        <div className="row row-text">
-          <p id="login-switch" className="pointer">Cadastre-se</p>
-        </div>
+        <input type="submit" name="submit" value="Login" className="submit"/>
       </form>
     
     </div>

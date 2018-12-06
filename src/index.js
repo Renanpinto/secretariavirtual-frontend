@@ -30,7 +30,7 @@ ReactDOM.render(
         <Route exact path="/login" render={() => (verificaAutenticacao() ? (<Redirect to="/home"/>) : (<Login/>))} />
         <Route exact path="/"  render={() => (verificaAutenticacao() ? (<Home />) : (<Redirect to="/login"/>))}/> 
         <Route exact path="/home" render={() => (verificaAutenticacao() ? (<Home />) : (<Redirect to="/login"/>))}/>
-        <Route exact path="/pacientes" render={() => (verificaAutenticacao() ? (<Pacientes />) : (<Redirect to="/login"/>))}/> 
+        <Route exact path="/clientes" render={() => (verificaAutenticacao() ? (<Pacientes />) : (<Redirect to="/login"/>))}/> 
         <Route exact path="/app" component={App} />
         <Route exact path="/relatorios" render={() => (verificaAutenticacao() ? (<Relatorios />) : (<Redirect to="/login"/>))}/>
         <Route exact path="/pagamentos" render={() => (verificaAutenticacao() ? (<Pagamentos />) : (<Redirect to="/login"/>))}/>

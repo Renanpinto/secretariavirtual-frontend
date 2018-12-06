@@ -112,7 +112,7 @@ class Consultas extends Component {
       appointment_id: event.currentTarget.id,
     }),
     success: function (resultado) {
-      console.log('resultado ', resultado)
+      console.log('resultado atender', resultado)
       // this.setState({ lista: resultado })
     },
     error: function (resultado) {
@@ -137,7 +137,6 @@ class Consultas extends Component {
   }
 
   cancelarConsulta(event){
-    console.log(event.currentTarget.id);
     $.ajax({
       url: `http://ema-api.herokuapp.com/api/appointment` ,
       crossDomain: true,
@@ -147,11 +146,13 @@ class Consultas extends Component {
       data: JSON.stringify({
         id: event.currentTarget.id,
       }),
-      success: function (resultado) {
+      success: function (resultado, textStatus, xhr) {
+        console.log("status: ", xhr.status);
         console.log('resultado ', resultado)
         // this.setState({ lista: resultado })
       },
-      error: function (resultado) {
+      error: function (resultado, xhr) {
+        console.log("status: ", xhr);
         console.log("deu ruim: ", resultado);
       }     
     });
@@ -249,8 +250,8 @@ class Consultas extends Component {
                       Cell: row => (
                         <span>{
                           row.original.status === true ? 
-                          <Button variant="outlined" color="primary" id={row.original.id} onClick={this.atenderConsulta}>Atender</Button>
-                          : <Button variant="outlined" color="secondary" id={row.original.id} onClick={this.cancelarConsulta}>Cancelar</Button>
+                          <Button variant="outlined" color="primary" id={row.original.id} onClick={this.cancelarConsulta}>Cancelar</Button>
+                          : <Button variant="outlined" color="secondary" id={row.original.id} onClick={this.atenderConsulta}>Atender</Button>
                         }
                         </span>
                       )

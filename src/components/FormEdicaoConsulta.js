@@ -114,8 +114,9 @@ export default class Menu extends React.Component {
           <section className='form-box-config'>
           
          <form className="form-config" onSubmit={this.enviaForm} method="put">
-           <h2>Configuração</h2>
-           <InputLabel htmlFor="paciente" className="td-consulta">Paciente</InputLabel>
+           <h2>Consulta</h2><br/>
+           <InputLabel htmlFor="paciente" className="td-consulta">Clientes</InputLabel>
+        <br/><br/>
         <Select
             value={customerId}
             onChange={this.handlePacienteChange}
