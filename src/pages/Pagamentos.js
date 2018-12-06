@@ -206,18 +206,6 @@ class Pagamentos extends Component {
                         : <Button variant="outlined" color="secondary" id={row.original.appointment_id} onClick={this.quitarExtornarFatura}>Quitar</Button>
                       }</span>
                     )
-                  },
-                  {
-                    Header: "asd",
-                    id: "acao",
-                    accessor: "status",
-                    Cell: row => (
-                      <span>
-                        <Icon color="primary">
-                          add_circle
-                        </Icon>
-                      }</span>
-                    )
                   }
                 ]
               }
