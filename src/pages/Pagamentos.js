@@ -201,9 +201,9 @@ class Pagamentos extends Component {
                       <span>
                         {row.value === true ? 
                         <div>
-                        <Button variant="outlined" color="primary" id={row.original.appointment_id} onClick={this.quitarExtornarFatura}>Estornar</Button>
+                        <Button variant="outlined" color="primary" id={row.original.id} onClick={this.quitarExtornarFatura}>Estornar</Button>
                         </div>
-                        : <Button variant="outlined" color="secondary" id={row.original.appointment_id} onClick={this.quitarExtornarFatura}>Quitar</Button>
+                        : <Button variant="outlined" color="secondary" id={row.original.id} onClick={this.quitarExtornarFatura}>Quitar</Button>
                       }</span>
                     )
                   }
