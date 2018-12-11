@@ -90,7 +90,7 @@ export default class Menu extends React.Component {
            onChange={this.handleDuracaoChange}
             helperText="Horas"
             type="number" margin="normal" />
-           <TextField id="reajuste" label="Periodo reajuste" value={this.state.reajuste}
+           <TextField id="reajuste" label="Período reajuste" value={this.state.reajuste}
             onChange={this.handleReajusteChange}
             helperText="Meses"
             type="number" margin="normal" />
