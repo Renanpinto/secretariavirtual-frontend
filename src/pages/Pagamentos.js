@@ -6,7 +6,6 @@ import '../css/pagamentos.css';
 import $ from 'jquery';
 import PubSub from 'pubsub-js';
 import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
 
 
 class Pagamentos extends Component {
