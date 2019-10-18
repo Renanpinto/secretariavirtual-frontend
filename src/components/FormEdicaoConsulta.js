@@ -7,9 +7,9 @@ import CloseIcon from '@material-ui/icons/Close';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
-import MomentUtils from 'material-ui-pickers/utils/moment-utils';
-import { InlineDateTimePicker } from 'material-ui-pickers/DateTimePicker';
+import MuiPickersUtilsProvider from '@material-ui/pickers/MuiPickersUtilsProvider';
+import MomentUtils from '@date-io/moment';
+import { DateTimePicker } from '@material-ui/pickers';
 
 export default class Menu extends React.Component {
   constructor(props) {
@@ -133,7 +133,7 @@ export default class Menu extends React.Component {
           </Select>
 
         <MuiPickersUtilsProvider utils = { MomentUtils } >
-        <InlineDateTimePicker keyboard label = "Data da consulta" value = { selectedDate }
+        <DateTimePicker keyboard label = "Data da consulta" value = { selectedDate }
         onChange = { this.handleDateChange }
         format = "DD/MM/YYYY HH:mm"
         />

@@ -5,9 +5,9 @@ import { TextField } from '@material-ui/core';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import MomentUtils from 'material-ui-pickers/utils/moment-utils';
-import { InlineDateTimePicker } from 'material-ui-pickers/DateTimePicker';
-import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
+import MomentUtils from '@date-io/moment';
+import { DateTimePicker } from '@material-ui/pickers';
+import MuiPickersUtilsProvider from '@material-ui/pickers/MuiPickersUtilsProvider';
 
 export default class Menu extends React.Component {
   constructor(props) {
@@ -103,7 +103,7 @@ handleDateChange(date) {
             helperText="R$"
             type="text" margin="normal" />
             <MuiPickersUtilsProvider utils = { MomentUtils } >
-            <InlineDateTimePicker keyboard label = "Data de reajuste" value = { selectedDate }
+            <DateTimePicker keyboard label = "Data de reajuste" value = { selectedDate }
               onChange = { this.handleDateChange }
               format = "DD/MM/YYYY HH:mm"
                />
