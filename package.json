@@ -10,7 +10,7 @@
     "date-fns": "^2.5.1",
     "graylog2": "^0.2.1",
     "jquery": "^3.5.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "moment-mini": "^2.22.1",
     "pubsub-js": "^1.7.0",
     "react": "^16.10.2",
