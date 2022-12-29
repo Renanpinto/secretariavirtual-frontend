@@ -20,7 +20,7 @@
     "react-responsive-modal": "^3.3.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^3.0.1",
+    "react-scripts": "^5.0.1",
     "react-table": "6.8.6",
     "request": "^2.88.0",
     "eslint": "^6.1.0"
